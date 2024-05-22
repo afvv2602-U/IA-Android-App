@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="base_neutral_clara">#F0F0F0</color>
+    <color name="base_neutral_oscura">#202020</color>
+    <color name="acento_sutil">#6D6875</color>
+    <color name="acento_principal">#9A8C98</color>
+    <color name="destacado_creativo">#C9ADA7</color>
+    <color name="complementario_suave">#B5838D</color>
+    <color name="complementario_oscuro">#6B705C</color>
+    <color name="sutil_text">#D9D9D9</color>
+
+</resources>
