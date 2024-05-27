@@ -51,6 +51,16 @@ class DatabaseHelper {
     return await db.insert(table, row);
   }
 
+  Future<bool> validateUser(String email, String password) async {
+    Database db = await instance.database;
+    List<Map> result = await db.query(table,
+        columns: [columnId],
+        where: '$columnEmail = ? AND $columnPassword = ?',
+        whereArgs: [email, password]);
+
+    return result.isNotEmpty;
+  }
+
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database;
     return await db.query(table);
