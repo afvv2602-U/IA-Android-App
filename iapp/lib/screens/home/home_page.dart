@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 
 // Screens
 import "package:iapp/screens/home/home_screen.dart";
@@ -16,13 +17,24 @@ class AppHomePage extends StatefulWidget {
 
 class _AppHomePageState extends State<AppHomePage> {
   int _selectedIndex = 0;
+  late List<CameraDescription> _cameras;
 
-  static List<Widget> _pages = <Widget>[
-    HomeScreen(),
-    ProfilePage(),
-    GalleryPage(),
-    CameraPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _initializeCameras();
+  }
+
+  Future<void> _initializeCameras() async {
+    _cameras = await availableCameras();
+  }
+
+  static List<Widget> _pages(List<CameraDescription> cameras) => <Widget>[
+        HomeScreen(),
+        ProfilePage(),
+        GalleryPage(),
+        CameraPage(cameras: cameras),
+      ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -33,9 +45,11 @@ class _AppHomePageState extends State<AppHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _pages.elementAt(_selectedIndex),
-      ),
+      body: _cameras.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : Center(
+              child: _pages(_cameras).elementAt(_selectedIndex),
+            ),
       bottomNavigationBar: CustomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

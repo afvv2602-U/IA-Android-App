@@ -1,16 +1,51 @@
 import 'package:flutter/material.dart';
-
-// Constants
 import 'package:iapp/config/colors.dart';
 import 'package:iapp/config/strings.dart';
 import 'package:iapp/widgets/normal_login/custom_divider.dart';
-
-// Widgets
 import 'package:iapp/widgets/normal_login/custom_login_button.dart';
 import 'package:iapp/widgets/normal_login/footer_login.dart';
 import 'package:iapp/widgets/normal_login/header_login.dart';
+import 'package:iapp/db/models/password_reset_helper.dart'; // Import PasswordResetHelper
 
-class ForgotPasswordPage extends StatelessWidget {
+class ForgotPasswordPage extends StatefulWidget {
+  @override
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
+}
+
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _resetPassword() async {
+    if (_formKey.currentState?.validate() == true) {
+      String email = _emailController.text;
+      bool emailExists = await PasswordResetHelper().checkUserEmail(email);
+
+      if (emailExists) {
+        try {
+          await PasswordResetHelper().sendResetEmail(email);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Correo de restablecimiento enviado')),
+          );
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al enviar el correo')),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Correo no registrado')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,65 +71,77 @@ class ForgotPasswordPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 50),
-                            Text(
-                              'Restablecer tu contraseña',
-                              style: TextStyle(
-                                fontFamily: 'RalewayMedium',
-                                fontSize: 25,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              'Te enviaremos un correo electrónico\npara restablecer tu contraseña',
-                              style: TextStyle(
-                                fontFamily: 'RalewayExtraLight',
-                                fontSize: 18,
-                                color: Colors.black,
-                                height: 1.5,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 40),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: AppStrings.email,
-                                filled: true,
-                                fillColor: AppColors.baseNeutralClara,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 40),
-                            CustomLoginButton(
-                              text: 'ENVIAR',
-                              onPressed: () {
-                                // Add your reset password logic here
-                              },
-                            ),
-                            SizedBox(height: 20),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                'Cancelar',
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 50),
+                              Text(
+                                'Restablecer tu contraseña',
                                 style: TextStyle(
                                   fontFamily: 'RalewayMedium',
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
+                                  fontSize: 25,
+                                  color: Colors.black,
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 16),
-                          ],
+                              SizedBox(height: 20),
+                              Text(
+                                'Te enviaremos un correo electrónico\npara restablecer tu contraseña',
+                                style: TextStyle(
+                                  fontFamily: 'RalewayExtraLight',
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  height: 1.5,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 40),
+                              TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  hintText: AppStrings.email,
+                                  filled: true,
+                                  fillColor: AppColors.baseNeutralClara,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Por favor, ingrese su correo electrónico';
+                                  }
+                                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                      .hasMatch(value)) {
+                                    return 'Por favor, ingrese un correo válido';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 40),
+                              CustomLoginButton(
+                                text: 'ENVIAR',
+                                onPressed: _resetPassword,
+                              ),
+                              SizedBox(height: 20),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Cancelar',
+                                  style: TextStyle(
+                                    fontFamily: 'RalewayMedium',
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          ),
                         ),
                       ),
                     ],

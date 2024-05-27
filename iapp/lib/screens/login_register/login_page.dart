@@ -16,7 +16,7 @@ import 'package:iapp/screens/login_register/forgot_pass_page.dart';
 import 'package:iapp/screens/home/home_page.dart'; // Import AppHomePage
 
 // Import database helper
-import 'package:iapp/db/database_helper.dart';
+import 'package:iapp/db/models/user_login.dart'; // Ensure correct import for UserLogin
 
 class LoginPage extends StatefulWidget {
   @override
@@ -40,8 +40,7 @@ class _LoginPageState extends State<LoginPage> {
       String email = _emailController.text;
       String password = _passwordController.text;
 
-      bool isValidUser =
-          await DatabaseHelper.instance.validateUser(email, password);
+      bool isValidUser = await UserLogin().validateUser(email, password);
       if (isValidUser) {
         Navigator.pushReplacement(
           context,

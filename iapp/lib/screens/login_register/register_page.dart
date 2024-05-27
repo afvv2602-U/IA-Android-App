@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:iapp/db/models/user_registration.dart';
+
+// Config
 import 'package:iapp/config/colors.dart';
 import 'package:iapp/config/strings.dart';
-import 'package:iapp/widgets/normal_login/custom_divider.dart';
+
+// Widgets
 import 'package:iapp/widgets/normal_login/custom_login_button.dart';
 import 'package:iapp/widgets/normal_login/footer_login.dart';
 import 'package:iapp/widgets/normal_login/header_login.dart';
-import 'package:iapp/db/database_helper.dart';
+import 'package:iapp/widgets/normal_login/custom_divider.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -36,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'email': _emailController.text,
         'password': _passwordController.text,
       };
-      await DatabaseHelper.instance.insertUser(user);
+      await UserRegistration().registerUser(user);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Usuario registrado con éxito')),
       );
@@ -76,14 +80,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               SizedBox(height: 20),
-                              Center(
-                                child: Text(
-                                  AppStrings.createAcc,
-                                  style: TextStyle(
-                                    fontFamily: 'RalewayMedium',
-                                    fontSize: 25,
-                                    color: Colors.black,
-                                  ),
+                              Text(
+                                AppStrings.createAcc,
+                                style: TextStyle(
+                                  fontFamily: 'RalewayMedium',
+                                  fontSize: 25,
+                                  color: Colors.black,
                                 ),
                               ),
                               SizedBox(height: 20),
@@ -171,6 +173,21 @@ class _RegisterPageState extends State<RegisterPage> {
                               CustomLoginButton(
                                 text: AppStrings.create,
                                 onPressed: _registerUser,
+                              ),
+                              SizedBox(height: 20),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Cancelar',
+                                  style: TextStyle(
+                                    fontFamily: 'RalewayMedium',
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
                               ),
                               SizedBox(height: 16),
                             ],
