@@ -1,0 +1,44 @@
+name: iapp
+description: App powered by IA to classifie art pieces in historical epochs
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  url_launcher: ^6.2.6 
+  sqflite: ^2.0.0+4
+  cupertino_icons: ^1.0.2
+  path: ^1.8.0
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/images/background/
+  fonts:
+    - family: EdensorTittle
+      fonts:
+        - asset: assets/fonts/edensor_tittle.otf
+    - family: RalewayExtraLight
+      fonts:
+        - asset: assets/fonts/raleway_extralight.ttf
+    - family: RalewayMedium
+      fonts:
+        - asset: assets/fonts/raleway_medium.ttf
+    - family: Themunday
+      fonts:
+        - asset: assets/fonts/themunday.ttf
+
+
