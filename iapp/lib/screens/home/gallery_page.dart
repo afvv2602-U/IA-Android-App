@@ -1,66 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'package:iapp/db/queries/photo_queries.dart';
+import 'package:iapp/screens/home/photos/photo_detail_page.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 class GalleryPage extends StatefulWidget {
-  final String? imagePath;
+  final int userId;
 
-  GalleryPage({this.imagePath});
+  GalleryPage({required this.userId});
 
   @override
   _GalleryPageState createState() => _GalleryPageState();
 }
 
 class _GalleryPageState extends State<GalleryPage> {
-  List<String> _imagePaths = [];
+  late Future<List<Map<String, dynamic>>> _photos;
 
   @override
   void initState() {
     super.initState();
-    _loadImages();
-    if (widget.imagePath != null) {
-      _saveImage(widget.imagePath!);
-    }
+    _loadUserPhotos();
+    BackButtonInterceptor.add(_myInterceptor);
   }
 
-  Future<void> _loadImages() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final List<FileSystemEntity> files = directory.listSync();
-
-    List<String> imagePaths = [];
-    for (FileSystemEntity file in files) {
-      if (file.path.endsWith('.png')) {
-        imagePaths.add(file.path);
-      }
-    }
-
-    setState(() {
-      _imagePaths = imagePaths;
-    });
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(_myInterceptor);
+    super.dispose();
   }
 
-  Future<void> _saveImage(String imagePath) async {
-    setState(() {
-      _imagePaths.add(imagePath);
-    });
+  bool _myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    // Return true to stop the default back button behavior
+    return true;
+  }
+
+  void _loadUserPhotos() {
+    _photos = PhotoQueries().getUserPhotos(widget.userId);
+  }
+
+  void _deletePhoto(int photoId) async {
+    await PhotoQueries().deletePhoto(photoId);
+    _loadUserPhotos();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: StaggeredGridView.countBuilder(
-          crossAxisCount: 4,
-          itemCount: _imagePaths.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Image.file(File(_imagePaths[index]));
-          },
-          staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
-          mainAxisSpacing: 4.0,
-          crossAxisSpacing: 4.0,
-        ),
+      appBar: AppBar(
+        title: Text('Galería'),
+        automaticallyImplyLeading: false, // Disable back button in AppBar
+      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _photos,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error al cargar las fotos'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No hay fotos disponibles'));
+          } else {
+            List<Map<String, dynamic>> photos = snapshot.data!;
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4, // Show 4 images per row
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: photos.length,
+              itemBuilder: (context, index) {
+                String photoPath = photos[index]['photoPath'];
+                int photoId = photos[index]['id'];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PhotoDetailPage(
+                          photoPath: photoPath,
+                          onDelete: () {
+                            _deletePhoto(photoId);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  child: Image.file(File(photoPath)),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

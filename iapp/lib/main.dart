@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iapp/db/database_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:camera/camera.dart';
 
 // Import constants
 import 'package:iapp/config/strings.dart';
@@ -7,14 +10,35 @@ import 'package:iapp/config/strings.dart';
 import 'package:iapp/widgets/normal_login/social_button_white.dart';
 import 'package:iapp/widgets/normal_login/custom_main_button.dart';
 
-// Import paginas
+// Import pages
 import 'package:iapp/screens/login_register/login_page.dart';
+import 'package:iapp/screens/home/home_page.dart';
 
-void main() {
-  runApp(MyApp());
+List<CameraDescription> cameras = [];
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  String email = prefs.getString('email') ?? '';
+  String password = prefs.getString('password') ?? '';
+
+  runApp(MyApp(
+    isLoggedIn: isLoggedIn,
+    email: email,
+    password: password,
+  ));
 }
 
 class MyApp extends StatelessWidget {
+  final bool isLoggedIn;
+  final String email;
+  final String password;
+
+  MyApp(
+      {required this.isLoggedIn, required this.email, required this.password});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +47,25 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'RalewayExtraLight',
       ),
-      home: StartPage(),
+      home: isLoggedIn
+          ? FutureBuilder<int>(
+              future: DatabaseHelper.instance.getUserId(email, password),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return AppHomePage(
+                      cameras: cameras,
+                      userId: snapshot.data!,
+                    );
+                  } else {
+                    return LoginPage();
+                  }
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            )
+          : StartPage(),
     );
   }
 }

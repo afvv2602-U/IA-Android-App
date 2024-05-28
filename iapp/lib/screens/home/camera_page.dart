@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:iapp/screens/home/image_preview_page.dart';
+import 'package:iapp/db/queries/photo_queries.dart';
+import 'package:iapp/screens/home/photos/image_preview_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:iapp/api/api_service.dart';
 import 'dart:io';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 class CameraPage extends StatefulWidget {
   final List<CameraDescription> cameras;
+  final int userId;
 
-  CameraPage({required this.cameras});
+  CameraPage({required this.cameras, required this.userId});
 
   @override
   _CameraPageState createState() => _CameraPageState();
@@ -22,17 +25,24 @@ class _CameraPageState extends State<CameraPage> {
   void initState() {
     super.initState();
     _initializeCamera();
+    BackButtonInterceptor.add(_myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(_myInterceptor);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  bool _myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    // Return true to stop the default back button behavior
+    return true;
   }
 
   void _initializeCamera() {
     _controller = CameraController(widget.cameras[0], ResolutionPreset.high);
     _initializeControllerFuture = _controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   Future<void> _takePicture() async {
@@ -45,6 +55,11 @@ class _CameraPageState extends State<CameraPage> {
       await image.saveTo(imagePath);
 
       await ApiService.evaluateImage(File(imagePath));
+
+      await PhotoQueries().insertPhoto({
+        'userId': widget.userId,
+        'photoPath': imagePath,
+      });
 
       Navigator.push(
         context,

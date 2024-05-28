@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iapp/db/database_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:camera/camera.dart';
 
 // Import constants
 import 'package:iapp/config/colors.dart';
@@ -13,10 +16,12 @@ import 'package:iapp/widgets/normal_login/custom_divider.dart';
 // Import pages
 import 'package:iapp/screens/login_register/register_page.dart';
 import 'package:iapp/screens/login_register/forgot_pass_page.dart';
-import 'package:iapp/screens/home/home_page.dart'; // Import AppHomePage
+import 'package:iapp/screens/home/home_page.dart';
 
 // Import database helper
-import 'package:iapp/db/models/user_login.dart'; // Ensure correct import for UserLogin
+import 'package:iapp/db/models/user_login.dart';
+
+List<CameraDescription> cameras = [];
 
 class LoginPage extends StatefulWidget {
   @override
@@ -36,15 +41,25 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
     if (_formKey.currentState?.validate() == true) {
       String email = _emailController.text;
       String password = _passwordController.text;
 
       bool isValidUser = await UserLogin().validateUser(email, password);
       if (isValidUser) {
+        int userId = await DatabaseHelper.instance.getUserId(email, password);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true);
+        prefs.setString('email', email);
+        prefs.setString('password', password);
+
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => AppHomePage()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  AppHomePage(cameras: cameras, userId: userId)),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

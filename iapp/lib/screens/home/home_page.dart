@@ -1,40 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:iapp/screens/login_register/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 
-// Screens
-import "package:iapp/screens/home/home_screen.dart";
-import "package:iapp/screens/home/profile_page.dart";
-import "package:iapp/screens/home/gallery_page.dart";
-import "package:iapp/screens/home/camera_page.dart";
-
-// Widgets
+import 'package:iapp/screens/home/camera_page.dart';
+import 'package:iapp/screens/home/gallery_page.dart';
+import 'package:iapp/screens/home/profile_page.dart';
 import 'package:iapp/widgets/home/navigation_bar.dart';
 
 class AppHomePage extends StatefulWidget {
+  final List<CameraDescription> cameras;
+  final int userId;
+
+  AppHomePage({required this.cameras, required this.userId});
+
   @override
   _AppHomePageState createState() => _AppHomePageState();
 }
 
 class _AppHomePageState extends State<AppHomePage> {
   int _selectedIndex = 0;
-  late List<CameraDescription> _cameras;
 
   @override
   void initState() {
     super.initState();
-    _initializeCameras();
+    BackButtonInterceptor.add(_myInterceptor);
   }
 
-  Future<void> _initializeCameras() async {
-    _cameras = await availableCameras();
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(_myInterceptor);
+    super.dispose();
   }
 
-  static List<Widget> _pages(List<CameraDescription> cameras) => <Widget>[
-        HomeScreen(),
-        ProfilePage(),
-        GalleryPage(),
-        CameraPage(cameras: cameras),
-      ];
+  bool _myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    // Return true to stop the default back button behavior
+    return true;
+  }
+
+  List<Widget> get _pages {
+    return [
+      HomeScreen(userId: widget.userId),
+      ProfilePage(
+        userId: widget.userId,
+        onLogout: _handleLogout,
+      ),
+      GalleryPage(userId: widget.userId),
+      CameraPage(cameras: widget.cameras, userId: widget.userId),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -42,17 +57,40 @@ class _AppHomePageState extends State<AppHomePage> {
     });
   }
 
+  void _handleLogout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Borra todas las preferencias para cerrar sesión
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _cameras.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : Center(
-              child: _pages(_cameras).elementAt(_selectedIndex),
-            ),
+      body: Center(
+        child: _pages.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: CustomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  final int userId;
+
+  HomeScreen({required this.userId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'Home Screen for User $userId',
+        style: TextStyle(fontSize: 24),
       ),
     );
   }

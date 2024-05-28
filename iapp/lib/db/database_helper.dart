@@ -7,7 +7,8 @@ class DatabaseHelper {
   static final _databaseName = "MyDatabase.db";
   static final _databaseVersion = 1;
 
-  static final table = 'user';
+  static final tableUser = 'user';
+  static final tablePhotos = 'photos';
 
   static final columnId = '_id';
   static final columnName = 'nombre';
@@ -15,7 +16,10 @@ class DatabaseHelper {
   static final columnEmail = 'email';
   static final columnPassword = 'password';
 
-  // make this a singleton class
+  static final columnPhotoId = '_photoId';
+  static final columnUserId = 'userId';
+  static final columnPhotoPath = 'photoPath';
+
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
@@ -36,7 +40,7 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-          CREATE TABLE $table (
+          CREATE TABLE $tableUser (
             $columnId INTEGER PRIMARY KEY,
             $columnName TEXT NOT NULL,
             $columnSurname TEXT NOT NULL,
@@ -44,50 +48,28 @@ class DatabaseHelper {
             $columnPassword TEXT NOT NULL
           )
           ''');
+
+    await db.execute('''
+          CREATE TABLE $tablePhotos (
+            $columnPhotoId INTEGER PRIMARY KEY,
+            $columnUserId INTEGER NOT NULL,
+            $columnPhotoPath TEXT NOT NULL,
+            FOREIGN KEY ($columnUserId) REFERENCES $tableUser ($columnId)
+          )
+          ''');
   }
 
-  Future<int> insertUser(Map<String, dynamic> row) async {
+  Future<int> getUserId(String email, String password) async {
     Database db = await instance.database;
-    return await db.insert(table, row);
-  }
-
-  Future<bool> validateUser(String email, String password) async {
-    Database db = await instance.database;
-    List<Map> result = await db.query(table,
-        columns: [columnId],
-        where: '$columnEmail = ? AND $columnPassword = ?',
+    List<Map> result = await db.query(tableUser,
+        columns: ['_id'],
+        where: 'email = ? AND password = ?',
         whereArgs: [email, password]);
 
-    return result.isNotEmpty;
-  }
-
-  Future<bool> checkUserEmail(String email) async {
-    Database db = await instance.database;
-    List<Map> result = await db.query(table,
-        columns: [columnId], where: '$columnEmail = ?', whereArgs: [email]);
-
-    return result.isNotEmpty;
-  }
-
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
-    Database db = await instance.database;
-    return await db.query(table);
-  }
-
-  Future<int?> queryRowCount() async {
-    Database db = await instance.database;
-    return Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM $table'));
-  }
-
-  Future<int> update(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    int id = row[columnId];
-    return await db.update(table, row, where: '$columnId = ?', whereArgs: [id]);
-  }
-
-  Future<int> delete(int id) async {
-    Database db = await instance.database;
-    return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
+    if (result.isNotEmpty) {
+      return result.first['_id'];
+    } else {
+      throw Exception('Usuario no encontrado');
+    }
   }
 }

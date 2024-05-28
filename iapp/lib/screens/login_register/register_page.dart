@@ -80,12 +80,14 @@ class _RegisterPageState extends State<RegisterPage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               SizedBox(height: 20),
-                              Text(
-                                AppStrings.createAcc,
-                                style: TextStyle(
-                                  fontFamily: 'RalewayMedium',
-                                  fontSize: 25,
-                                  color: Colors.black,
+                              Center(
+                                child: Text(
+                                  AppStrings.createAcc,
+                                  style: TextStyle(
+                                    fontFamily: 'RalewayMedium',
+                                    fontSize: 25,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 20),
@@ -173,21 +175,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               CustomLoginButton(
                                 text: AppStrings.create,
                                 onPressed: _registerUser,
-                              ),
-                              SizedBox(height: 20),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  'Cancelar',
-                                  style: TextStyle(
-                                    fontFamily: 'RalewayMedium',
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
                               ),
                               SizedBox(height: 16),
                             ],

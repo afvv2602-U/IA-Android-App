@@ -13,13 +13,19 @@ class ImagePreviewPage extends StatelessWidget {
         title: Text('Vista previa de la imagen'),
       ),
       body: Center(
-        child: Image.file(File(imagePath)),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        child: Column(
+          children: [
+            Expanded(
+              child: Image.file(File(imagePath)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Volver'),
+            ),
+          ],
+        ),
       ),
     );
   }

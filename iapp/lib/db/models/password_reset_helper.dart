@@ -1,9 +1,16 @@
 import 'package:http/http.dart' as http;
 import 'package:iapp/db/database_helper.dart';
+import 'package:sqflite/sqflite.dart';
 
 class PasswordResetHelper {
   Future<bool> checkUserEmail(String email) async {
-    return await DatabaseHelper.instance.checkUserEmail(email);
+    Database db = await DatabaseHelper.instance.database;
+    List<Map> result = await db.query(DatabaseHelper.tableUser,
+        columns: [DatabaseHelper.columnId],
+        where: '${DatabaseHelper.columnEmail} = ?',
+        whereArgs: [email]);
+
+    return result.isNotEmpty;
   }
 
   Future<void> sendResetEmail(String email) async {
