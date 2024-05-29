@@ -15,6 +15,7 @@ class GalleryPage extends StatefulWidget {
 
 class _GalleryPageState extends State<GalleryPage> {
   late Future<List<Map<String, dynamic>>> _photos;
+  String? _filterStyle;
 
   @override
   void initState() {
@@ -50,6 +51,33 @@ class _GalleryPageState extends State<GalleryPage> {
       appBar: AppBar(
         title: Text('Galería'),
         automaticallyImplyLeading: false,
+        actions: [
+          DropdownButton<String>(
+            hint: Text("Filtrar por estilo"),
+            value: _filterStyle,
+            onChanged: (String? newValue) {
+              setState(() {
+                _filterStyle = newValue;
+              });
+              _loadUserPhotos();
+            },
+            items: <String>[
+              'Barroco',
+              'Cubismo',
+              'Expresionismo',
+              'Impresionismo',
+              'Realismo',
+              'Renacimiento',
+              'Rococo',
+              'Romanticismo'
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _photos,
@@ -62,6 +90,11 @@ class _GalleryPageState extends State<GalleryPage> {
             return Center(child: Text('No hay fotos disponibles'));
           } else {
             List<Map<String, dynamic>> photos = snapshot.data!;
+            if (_filterStyle != null) {
+              photos = photos
+                  .where((photo) => photo['style'] == _filterStyle)
+                  .toList();
+            }
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
@@ -71,21 +104,26 @@ class _GalleryPageState extends State<GalleryPage> {
               itemCount: photos.length,
               itemBuilder: (context, index) {
                 String photoPath = photos[index]['photoPath'];
-                int photoId = photos[index]['id'];
+                int photoId = photos[index]['_photoId'];
+                String style = photos[index]['style'];
+
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    bool? result = await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => PhotoDetailPage(
                           photoPath: photoPath,
+                          style: style,
                           onDelete: () {
                             _deletePhoto(photoId);
-                            Navigator.pop(context);
                           },
                         ),
                       ),
                     );
+                    if (result == true) {
+                      _loadUserPhotos();
+                    }
                   },
                   child: Image.file(File(photoPath)),
                 );

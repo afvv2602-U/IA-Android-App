@@ -19,6 +19,7 @@ class DatabaseHelper {
   static final columnPhotoId = '_photoId';
   static final columnUserId = 'userId';
   static final columnPhotoPath = 'photoPath';
+  static final columnStyle = 'style';
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -40,23 +41,24 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE $tableUser (
-        $columnId INTEGER PRIMARY KEY,
-        $columnName TEXT NOT NULL,
-        $columnSurname TEXT NOT NULL,
-        $columnEmail TEXT NOT NULL,
-        $columnPassword TEXT NOT NULL
-      )
-    ''');
+          CREATE TABLE $tableUser (
+            $columnId INTEGER PRIMARY KEY,
+            $columnName TEXT NOT NULL,
+            $columnSurname TEXT NOT NULL,
+            $columnEmail TEXT NOT NULL,
+            $columnPassword TEXT NOT NULL
+          )
+          ''');
 
     await db.execute('''
-      CREATE TABLE $tablePhotos (
-        $columnPhotoId INTEGER PRIMARY KEY,
-        $columnUserId INTEGER NOT NULL,
-        $columnPhotoPath TEXT NOT NULL,
-        FOREIGN KEY ($columnUserId) REFERENCES $tableUser ($columnId)
-      )
-    ''');
+          CREATE TABLE $tablePhotos (
+            $columnPhotoId INTEGER PRIMARY KEY,
+            $columnUserId INTEGER NOT NULL,
+            $columnPhotoPath TEXT NOT NULL,
+            $columnStyle TEXT,
+            FOREIGN KEY ($columnUserId) REFERENCES $tableUser ($columnId)
+          )
+          ''');
   }
 
   Future<int> getUserId(String email, String password) async {

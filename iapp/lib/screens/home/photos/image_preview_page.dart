@@ -3,14 +3,15 @@ import 'dart:io';
 
 class ImagePreviewPage extends StatelessWidget {
   final String imagePath;
+  final String style;
 
-  ImagePreviewPage({required this.imagePath});
+  ImagePreviewPage({required this.imagePath, required this.style});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vista previa de la imagen'),
+        title: Text('Estilo imagen: $style'),
       ),
       body: Center(
         child: Column(

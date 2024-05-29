@@ -57,9 +57,10 @@ class _CameraPageState extends State<CameraPage> {
       // Log the image path for debugging
       print('Image saved to $imagePath');
 
-      // Evaluate the image
+      // Evaluate the image and get the style
+      String style = '';
       try {
-        await ApiService.evaluateImage(File(imagePath));
+        style = await ApiService.evaluateImage(File(imagePath));
       } catch (e) {
         print('Error evaluating image: $e');
       }
@@ -69,6 +70,7 @@ class _CameraPageState extends State<CameraPage> {
         await PhotoQueries().insertPhoto({
           'userId': widget.userId,
           'photoPath': imagePath,
+          'style': style,
         });
         print('Photo inserted into database');
       } catch (e) {
@@ -80,7 +82,8 @@ class _CameraPageState extends State<CameraPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ImagePreviewPage(imagePath: imagePath),
+            builder: (context) =>
+                ImagePreviewPage(imagePath: imagePath, style: style),
           ),
         ).then((_) {
           _resetCamera();

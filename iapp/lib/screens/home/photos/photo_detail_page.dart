@@ -3,16 +3,25 @@ import 'dart:io';
 
 class PhotoDetailPage extends StatelessWidget {
   final String photoPath;
+  final String style;
   final VoidCallback onDelete;
 
-  PhotoDetailPage({required this.photoPath, required this.onDelete});
+  PhotoDetailPage({
+    required this.photoPath,
+    required this.style,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true); // Indicate successful navigation
+        return true;
+      },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Detalle de la Foto'),
+          title: Text('Estilo imagen: $style'),
         ),
         body: Column(
           children: [

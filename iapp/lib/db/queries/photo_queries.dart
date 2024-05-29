@@ -9,18 +9,8 @@ class PhotoQueries {
 
   Future<List<Map<String, dynamic>>> getUserPhotos(int userId) async {
     Database db = await DatabaseHelper.instance.database;
-    final List<Map<String, dynamic>> result = await db.query(
-        DatabaseHelper.tablePhotos,
-        where: '${DatabaseHelper.columnUserId} = ?',
-        whereArgs: [userId]);
-
-    // Ensure no null values in the results
-    return result.map((photo) {
-      return {
-        'id': photo[DatabaseHelper.columnPhotoId] as int,
-        'photoPath': photo[DatabaseHelper.columnPhotoPath] as String,
-      };
-    }).toList();
+    return await db.query(DatabaseHelper.tablePhotos,
+        where: '${DatabaseHelper.columnUserId} = ?', whereArgs: [userId]);
   }
 
   Future<int> deletePhoto(int photoId) async {
