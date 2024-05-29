@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-
-// Import constants
-
-// Import widgets
+import 'package:camera/camera.dart';
 import 'package:iapp/widgets/diver_login/header_with_divider.dart';
 import 'package:iapp/widgets/diver_login/footer_with_divider.dart';
 
 class TermsConditionsPage extends StatelessWidget {
+  final List<CameraDescription> cameras;
+
+  const TermsConditionsPage({required this.cameras, Key? key})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          HeaderWithDivider(),
+          HeaderWithDivider(cameras: cameras),
           Expanded(
             child: SingleChildScrollView(
               child: Container(
-                color: Colors.white, // Fondo blanco
+                color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -78,10 +80,8 @@ class TermsConditionsPage extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(
-                        height: 50,
-                      ), // Add spacing before the footer appears
-                      FooterWithDivider(),
+                      SizedBox(height: 50),
+                      FooterWithDivider(cameras: cameras),
                     ],
                   ),
                 ),

@@ -5,9 +5,14 @@ import 'package:iapp/widgets/normal_login/custom_divider.dart';
 import 'package:iapp/widgets/normal_login/custom_login_button.dart';
 import 'package:iapp/widgets/normal_login/footer_login.dart';
 import 'package:iapp/widgets/normal_login/header_login.dart';
-import 'package:iapp/db/models/password_reset_helper.dart'; // Import PasswordResetHelper
+import 'package:iapp/db/models/password_reset_helper.dart';
+import 'package:camera/camera.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
+  final List<CameraDescription> cameras;
+
+  const ForgotPasswordPage({required this.cameras, Key? key}) : super(key: key);
+
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
@@ -58,7 +63,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           child: IntrinsicHeight(
             child: Column(
               children: [
-                Header(),
+                Header(cameras: widget.cameras),
                 CustomDivider(),
                 Expanded(
                   child: Stack(
@@ -148,7 +153,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                 ),
                 CustomDivider(),
-                Footer(),
+                Footer(cameras: widget.cameras),
               ],
             ),
           ),

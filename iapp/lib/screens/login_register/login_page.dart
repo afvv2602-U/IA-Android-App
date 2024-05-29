@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:iapp/db/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:camera/camera.dart';
-
-// Import constants
 import 'package:iapp/config/colors.dart';
 import 'package:iapp/config/strings.dart';
-
-// Import widgets
 import 'package:iapp/widgets/normal_login/custom_login_button.dart';
 import 'package:iapp/widgets/normal_login/footer_login.dart';
 import 'package:iapp/widgets/normal_login/header_login.dart';
 import 'package:iapp/widgets/normal_login/custom_divider.dart';
-
-// Import pages
 import 'package:iapp/screens/login_register/register_page.dart';
 import 'package:iapp/screens/login_register/forgot_pass_page.dart';
 import 'package:iapp/screens/home/home_page.dart';
-
-// Import database helper
 import 'package:iapp/db/models/user_login.dart';
-
-List<CameraDescription> cameras = [];
+import 'package:camera/camera.dart';
 
 class LoginPage extends StatefulWidget {
+  final List<CameraDescription> cameras;
+
+  const LoginPage({required this.cameras, Key? key}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -41,8 +35,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    cameras = await availableCameras();
     if (_formKey.currentState?.validate() == true) {
       String email = _emailController.text;
       String password = _passwordController.text;
@@ -59,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  AppHomePage(cameras: cameras, userId: userId)),
+                  AppHomePage(cameras: widget.cameras, userId: userId)),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -81,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           child: IntrinsicHeight(
             child: Column(
               children: [
-                Header(),
+                Header(cameras: widget.cameras),
                 CustomDivider(),
                 Expanded(
                   child: Stack(
@@ -157,8 +149,8 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          ForgotPasswordPage(),
+                                      builder: (context) => ForgotPasswordPage(
+                                          cameras: widget.cameras),
                                     ),
                                   );
                                 },
@@ -185,7 +177,8 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => RegisterPage()),
+                                        builder: (context) => RegisterPage(
+                                            cameras: widget.cameras)),
                                   );
                                 },
                                 child: Text(
@@ -206,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 CustomDivider(),
-                Footer(),
+                Footer(cameras: widget.cameras),
               ],
             ),
           ),

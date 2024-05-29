@@ -4,9 +4,13 @@ import 'package:iapp/widgets/normal_login/custom_main_button.dart';
 import 'package:iapp/widgets/normal_login/footer_login.dart';
 import 'package:iapp/widgets/normal_login/header_login.dart';
 import 'package:iapp/widgets/normal_login/custom_divider.dart';
+import 'package:camera/camera.dart';
 
 class ContactPage extends StatelessWidget {
+  final List<CameraDescription> cameras;
   final _formKey = GlobalKey<FormState>();
+
+  ContactPage({required this.cameras, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class ContactPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Header(),
+            Header(cameras: cameras),
             CustomDivider(),
             Container(
               color: Colors.white,
@@ -127,7 +131,7 @@ class ContactPage extends StatelessWidget {
               ),
             ),
             CustomDivider(),
-            Footer(), // Aquí se incluye el footer
+            Footer(cameras: cameras),
           ],
         ),
       ),

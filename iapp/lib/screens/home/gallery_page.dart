@@ -30,18 +30,18 @@ class _GalleryPageState extends State<GalleryPage> {
   }
 
   bool _myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    // Return true to stop the default back button behavior
-    return true;
+    return true; // Return true to stop the default back button behavior
   }
 
   void _loadUserPhotos() {
-    _photos = PhotoQueries().getUserPhotos(widget.userId);
+    setState(() {
+      _photos = PhotoQueries().getUserPhotos(widget.userId);
+    });
   }
 
   void _deletePhoto(int photoId) async {
     await PhotoQueries().deletePhoto(photoId);
     _loadUserPhotos();
-    setState(() {});
   }
 
   @override
@@ -49,7 +49,7 @@ class _GalleryPageState extends State<GalleryPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Galería'),
-        automaticallyImplyLeading: false, // Disable back button in AppBar
+        automaticallyImplyLeading: false,
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _photos,
@@ -64,7 +64,7 @@ class _GalleryPageState extends State<GalleryPage> {
             List<Map<String, dynamic>> photos = snapshot.data!;
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, // Show 4 images per row
+                crossAxisCount: 4,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),

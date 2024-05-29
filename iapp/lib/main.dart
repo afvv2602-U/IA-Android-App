@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:iapp/db/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
-
-// Import constants
 import 'package:iapp/config/strings.dart';
-
-// Import widgets
 import 'package:iapp/widgets/normal_login/social_button_white.dart';
 import 'package:iapp/widgets/normal_login/custom_main_button.dart';
-
-// Import pages
 import 'package:iapp/screens/login_register/login_page.dart';
 import 'package:iapp/screens/home/home_page.dart';
 
@@ -28,6 +22,7 @@ Future<void> main() async {
     isLoggedIn: isLoggedIn,
     email: email,
     password: password,
+    cameras: cameras,
   ));
 }
 
@@ -35,9 +30,15 @@ class MyApp extends StatelessWidget {
   final bool isLoggedIn;
   final String email;
   final String password;
+  final List<CameraDescription> cameras;
 
-  MyApp(
-      {required this.isLoggedIn, required this.email, required this.password});
+  const MyApp({
+    required this.isLoggedIn,
+    required this.email,
+    required this.password,
+    required this.cameras,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,19 +59,23 @@ class MyApp extends StatelessWidget {
                       userId: snapshot.data!,
                     );
                   } else {
-                    return LoginPage();
+                    return LoginPage(cameras: cameras);
                   }
                 } else {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }
               },
             )
-          : StartPage(),
+          : StartPage(cameras: cameras),
     );
   }
 }
 
 class StartPage extends StatelessWidget {
+  final List<CameraDescription> cameras;
+
+  const StartPage({required this.cameras, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +106,9 @@ class StartPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(cameras: cameras),
+                    ),
                   );
                 },
               ),

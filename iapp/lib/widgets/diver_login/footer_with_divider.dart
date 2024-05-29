@@ -1,12 +1,16 @@
-// footer_with_divider.dart
 import 'package:flutter/material.dart';
 import 'package:iapp/config/strings.dart';
 import 'package:iapp/screens/footer/contact.dart';
 import 'package:iapp/screens/footer/suscriptions.dart';
 import 'package:iapp/screens/footer/terms.dart';
 import 'package:iapp/widgets/normal_login/social_button.dart';
+import 'package:camera/camera.dart';
 
 class FooterWithDivider extends StatelessWidget {
+  final List<CameraDescription> cameras;
+
+  const FooterWithDivider({required this.cameras, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,7 +65,9 @@ class FooterWithDivider extends StatelessWidget {
                       // Navegar a la página de Contactanos
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ContactPage()),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ContactPage(cameras: cameras)),
                       );
                     },
                     child: Text(
@@ -76,11 +82,12 @@ class FooterWithDivider extends StatelessWidget {
                   SizedBox(width: 20),
                   GestureDetector(
                     onTap: () {
-                      // Navegar a la página de Contactanos
+                      // Navegar a la página de Términos y Condiciones
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TermsConditionsPage()),
+                            builder: (context) =>
+                                TermsConditionsPage(cameras: cameras)),
                       );
                     },
                     child: Text(
@@ -95,11 +102,12 @@ class FooterWithDivider extends StatelessWidget {
                   SizedBox(width: 20),
                   GestureDetector(
                     onTap: () {
-                      // Navegar a la página de Contactanos
+                      // Navegar a la página de Suscripciones
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SubscriptionsPage()),
+                            builder: (context) =>
+                                SubscriptionsPage(cameras: cameras)),
                       );
                     },
                     child: Text(

@@ -8,9 +8,13 @@ class ApiService {
       ..files.add(await http.MultipartFile.fromPath('file', image.path))
       ..headers['x-api-key'] = 'IRfzQeWjngxQWyfVP0xa-Ee4f5WPtJtZ_XeBLuu8-PE';
 
-    final response = await request.send();
-
-    if (response.statusCode != 200) {
+    try {
+      final response = await request.send().timeout(Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        throw Exception('Error al evaluar la imagen');
+      }
+    } catch (e) {
+      print('Error evaluating image: $e');
       throw Exception('Error al evaluar la imagen');
     }
   }

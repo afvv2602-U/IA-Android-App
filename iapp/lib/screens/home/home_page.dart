@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iapp/main.dart';
 import 'package:iapp/screens/login_register/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
@@ -62,7 +63,7 @@ class _AppHomePageState extends State<AppHomePage> {
     await prefs.clear(); // Borra todas las preferencias para cerrar sesión
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => LoginPage(cameras: cameras)),
     );
   }
 

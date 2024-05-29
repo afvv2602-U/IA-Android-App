@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:iapp/config/strings.dart';
-
 import 'package:iapp/widgets/normal_login/social_button.dart';
-
+import 'package:camera/camera.dart';
 import 'package:iapp/screens/footer/terms.dart';
 import 'package:iapp/screens/footer/contact.dart';
 import 'package:iapp/screens/footer/suscriptions.dart';
 
 class Footer extends StatelessWidget {
+  final List<CameraDescription> cameras;
+
+  const Footer({required this.cameras, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,16 +30,19 @@ class Footer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SocialMediaButton(
-                  iconPath: 'assets/icons/ic_twitter.png',
-                  url: 'https://twitter.com/'),
+                iconPath: 'assets/icons/ic_twitter.png',
+                url: 'https://twitter.com/',
+              ),
               SizedBox(width: 20),
               SocialMediaButton(
-                  iconPath: 'assets/icons/ic_instagram.png',
-                  url: 'https://www.instagram.com/'),
+                iconPath: 'assets/icons/ic_instagram.png',
+                url: 'https://www.instagram.com/',
+              ),
               SizedBox(width: 20),
               SocialMediaButton(
-                  iconPath: 'assets/icons/ic_facebook.png',
-                  url: 'https://www.facebook.com/'),
+                iconPath: 'assets/icons/ic_facebook.png',
+                url: 'https://www.facebook.com/',
+              ),
             ],
           ),
           SizedBox(height: 16),
@@ -45,10 +51,11 @@ class Footer extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  // Navegar a la página de Contactanos
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ContactPage()),
+                    MaterialPageRoute(
+                      builder: (context) => ContactPage(cameras: cameras),
+                    ),
                   );
                 },
                 child: Text(
@@ -63,11 +70,12 @@ class Footer extends StatelessWidget {
               SizedBox(width: 20),
               GestureDetector(
                 onTap: () {
-                  // Navegar a la página de Contactanos
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TermsConditionsPage()),
+                      builder: (context) =>
+                          TermsConditionsPage(cameras: cameras),
+                    ),
                   );
                 },
                 child: Text(
@@ -82,11 +90,11 @@ class Footer extends StatelessWidget {
               SizedBox(width: 20),
               GestureDetector(
                 onTap: () {
-                  // Navegar a la página de Contactanos
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SubscriptionsPage()),
+                      builder: (context) => SubscriptionsPage(cameras: cameras),
+                    ),
                   );
                 },
                 child: Text(

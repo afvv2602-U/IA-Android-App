@@ -54,23 +54,40 @@ class _CameraPageState extends State<CameraPage> {
       final imagePath = '${directory.path}/${DateTime.now()}.png';
       await image.saveTo(imagePath);
 
-      await ApiService.evaluateImage(File(imagePath));
+      // Log the image path for debugging
+      print('Image saved to $imagePath');
 
-      await PhotoQueries().insertPhoto({
-        'userId': widget.userId,
-        'photoPath': imagePath,
-      });
+      // Evaluate the image
+      try {
+        await ApiService.evaluateImage(File(imagePath));
+      } catch (e) {
+        print('Error evaluating image: $e');
+      }
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ImagePreviewPage(imagePath: imagePath),
-        ),
-      ).then((_) {
-        _resetCamera();
-      });
+      // Insert photo into the database
+      try {
+        await PhotoQueries().insertPhoto({
+          'userId': widget.userId,
+          'photoPath': imagePath,
+        });
+        print('Photo inserted into database');
+      } catch (e) {
+        print('Error inserting photo into database: $e');
+      }
+
+      if (mounted) {
+        // Navigate to the preview page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ImagePreviewPage(imagePath: imagePath),
+          ),
+        ).then((_) {
+          _resetCamera();
+        });
+      }
     } catch (e) {
-      print(e);
+      print('Error taking picture: $e');
     }
   }
 

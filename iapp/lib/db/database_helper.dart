@@ -40,34 +40,34 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-          CREATE TABLE $tableUser (
-            $columnId INTEGER PRIMARY KEY,
-            $columnName TEXT NOT NULL,
-            $columnSurname TEXT NOT NULL,
-            $columnEmail TEXT NOT NULL,
-            $columnPassword TEXT NOT NULL
-          )
-          ''');
+      CREATE TABLE $tableUser (
+        $columnId INTEGER PRIMARY KEY,
+        $columnName TEXT NOT NULL,
+        $columnSurname TEXT NOT NULL,
+        $columnEmail TEXT NOT NULL,
+        $columnPassword TEXT NOT NULL
+      )
+    ''');
 
     await db.execute('''
-          CREATE TABLE $tablePhotos (
-            $columnPhotoId INTEGER PRIMARY KEY,
-            $columnUserId INTEGER NOT NULL,
-            $columnPhotoPath TEXT NOT NULL,
-            FOREIGN KEY ($columnUserId) REFERENCES $tableUser ($columnId)
-          )
-          ''');
+      CREATE TABLE $tablePhotos (
+        $columnPhotoId INTEGER PRIMARY KEY,
+        $columnUserId INTEGER NOT NULL,
+        $columnPhotoPath TEXT NOT NULL,
+        FOREIGN KEY ($columnUserId) REFERENCES $tableUser ($columnId)
+      )
+    ''');
   }
 
   Future<int> getUserId(String email, String password) async {
     Database db = await instance.database;
     List<Map> result = await db.query(tableUser,
-        columns: ['_id'],
-        where: 'email = ? AND password = ?',
+        columns: [columnId],
+        where: '$columnEmail = ? AND $columnPassword = ?',
         whereArgs: [email, password]);
 
     if (result.isNotEmpty) {
-      return result.first['_id'];
+      return result.first[columnId];
     } else {
       throw Exception('Usuario no encontrado');
     }

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iapp/config/strings.dart';
 import 'package:iapp/screens/login_register/login_page.dart';
+import 'package:camera/camera.dart';
 
 class Header extends StatelessWidget {
+  final List<CameraDescription> cameras;
+
+  const Header({required this.cameras, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +29,8 @@ class Header extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(
+                      builder: (context) => LoginPage(cameras: cameras)),
                 );
               },
               child: Text(
