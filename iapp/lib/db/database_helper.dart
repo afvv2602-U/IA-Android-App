@@ -9,6 +9,7 @@ class DatabaseHelper {
 
   static final tableUser = 'user';
   static final tablePhotos = 'photos';
+  static final tableProfile = 'profile'; // New table for profile
 
   static final columnId = '_id';
   static final columnName = 'nombre';
@@ -20,6 +21,12 @@ class DatabaseHelper {
   static final columnUserId = 'userId';
   static final columnPhotoPath = 'photoPath';
   static final columnStyle = 'style';
+
+  static final columnProfileId = 'id';
+  static final columnUsername = 'username';
+  static final columnDescription = 'description';
+  static final columnProfileImagePath = 'profileImagePath';
+  static final columnTags = 'tags'; // New column for tags
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -57,6 +64,16 @@ class DatabaseHelper {
             $columnPhotoPath TEXT NOT NULL,
             $columnStyle TEXT,
             FOREIGN KEY ($columnUserId) REFERENCES $tableUser ($columnId)
+          )
+          ''');
+
+    await db.execute('''
+          CREATE TABLE $tableProfile (
+            $columnProfileId INTEGER PRIMARY KEY,
+            $columnUsername TEXT,
+            $columnDescription TEXT,
+            $columnProfileImagePath TEXT,
+            $columnTags TEXT
           )
           ''');
   }
