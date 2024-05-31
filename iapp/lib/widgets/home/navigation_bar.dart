@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
+import 'package:iapp/db/queries/profile_queries.dart'; // Asegúrate de tener este import correctamente.
 
 class CustomNavigationBar extends StatefulWidget {
   final int currentIndex;
@@ -22,10 +22,9 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
   }
 
   Future<void> _loadProfileImage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _profileImagePath = prefs.getString('profileImagePath');
-    });
+    // Simulating database call to get profile image path
+    _profileImagePath = await ProfileQueries().getProfileImagePath();
+    setState(() {});
   }
 
   @override
@@ -41,10 +40,17 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           label: 'Buscar',
         ),
         BottomNavigationBarItem(
-          icon: _profileImagePath != null
-              ? CircleAvatar(
-                  backgroundImage: FileImage(File(_profileImagePath!)),
-                  radius: 14, // Adjust the radius as needed
+          icon: _profileImagePath != null && _profileImagePath!.isNotEmpty
+              ? Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: FileImage(File(_profileImagePath!)),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 )
               : Icon(Icons.person),
           label: 'Perfil',

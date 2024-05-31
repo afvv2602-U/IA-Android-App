@@ -3,6 +3,7 @@ import 'package:iapp/db/queries/photo_queries.dart';
 import 'package:iapp/db/queries/profile_queries.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:iapp/config/colors.dart';
 import 'dart:io';
 
 class ProfilePage extends StatefulWidget {
@@ -119,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
             DrawerHeader(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue, Colors.purple],
+                  colors: [AppColors.acentoSutil, AppColors.acentoPrincipal],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -166,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.blue, Colors.purple],
+          colors: [AppColors.acentoSutil, AppColors.acentoPrincipal],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -181,7 +182,7 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [Colors.blue, Colors.purple],
+                  colors: [AppColors.acentoSutil, AppColors.acentoPrincipal],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -295,7 +296,11 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       margin: EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-        gradient: _getRandomGradientColor(),
+        gradient: LinearGradient(
+          colors: [AppColors.acentoSutil, AppColors.acentoPrincipal],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -407,22 +412,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         );
       },
-    );
-  }
-
-  LinearGradient _getRandomGradientColor() {
-    List<List<Color>> gradients = [
-      [Colors.blue.shade800, Colors.blue.shade200],
-      [Colors.green.shade800, Colors.green.shade200],
-      [Colors.red.shade800, Colors.red.shade200],
-      [Colors.orange.shade800, Colors.orange.shade200],
-      [Colors.purple.shade800, Colors.purple.shade200],
-    ];
-    gradients.shuffle();
-    return LinearGradient(
-      colors: gradients.first,
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
     );
   }
 }
