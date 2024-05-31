@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:iapp/config/strings.dart';
-import 'package:iapp/screens/login_register/login_page.dart';
+import 'package:aesthetica/config/strings.dart';
+import 'package:aesthetica/screens/login_register/login_page.dart';
 
 class HeaderWithDivider extends StatelessWidget {
   final List<CameraDescription> cameras;

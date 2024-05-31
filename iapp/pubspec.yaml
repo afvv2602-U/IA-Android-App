@@ -1,4 +1,4 @@
-name: iapp
+name: aesthetica
 description: App powered by IA to classifie art pieces in historical epochs
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -22,6 +22,9 @@ dependencies:
   shared_preferences: ^2.0.6
   back_button_interceptor: ^7.0.3
   image_picker: ^1.1.1
+  firebase_core: ^2.32.0
+  google_sign_in: ^6.2.1
+  firebase_auth: ^4.20.0
 
 
 

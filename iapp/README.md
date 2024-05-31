@@ -1,4 +1,4 @@
-# iapp
+# aesthetica
 
 A new Flutter project.
 

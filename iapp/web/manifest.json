@@ -1,6 +1,6 @@
 {
-    "name": "iapp",
-    "short_name": "iapp",
+    "name": "aesthetica",
+    "short_name": "aesthetica",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

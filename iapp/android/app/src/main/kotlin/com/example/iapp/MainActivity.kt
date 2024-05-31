@@ -1,4 +1,4 @@
-package com.example.iapp
+package com.example.aesthetica
 
 import io.flutter.embedding.android.FlutterActivity
 

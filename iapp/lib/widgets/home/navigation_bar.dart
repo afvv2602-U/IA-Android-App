@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:iapp/db/queries/profile_queries.dart'; // Asegúrate de tener este import correctamente.
+import 'package:aesthetica/db/queries/profile_queries.dart'; // Asegúrate de tener este import correctamente.
 
 class CustomNavigationBar extends StatefulWidget {
   final int currentIndex;

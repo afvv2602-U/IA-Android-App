@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:iapp/db/database_helper.dart';
+import 'package:aesthetica/db/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PasswordResetHelper {

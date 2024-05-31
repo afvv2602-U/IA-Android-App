@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/queries/photo_queries.dart';
-import 'package:iapp/db/queries/profile_queries.dart';
+import 'package:aesthetica/db/queries/photo_queries.dart';
+import 'package:aesthetica/db/queries/profile_queries.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:iapp/config/colors.dart';
+import 'package:aesthetica/config/colors.dart';
 import 'dart:io';
 
 class ProfilePage extends StatefulWidget {

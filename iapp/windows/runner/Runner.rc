@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "iapp" "\0"
+            VALUE "FileDescription", "aesthetica" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "iapp" "\0"
+            VALUE "InternalName", "aesthetica" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "iapp.exe" "\0"
-            VALUE "ProductName", "iapp" "\0"
+            VALUE "OriginalFilename", "aesthetica.exe" "\0"
+            VALUE "ProductName", "aesthetica" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

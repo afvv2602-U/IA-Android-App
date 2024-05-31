@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:iapp/db/queries/photo_queries.dart';
-import 'package:iapp/screens/home/photos/photo_detail_page.dart';
+import 'package:aesthetica/db/queries/photo_queries.dart';
+import 'package:aesthetica/screens/home/photos/photo_detail_page.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 class GalleryPage extends StatefulWidget {

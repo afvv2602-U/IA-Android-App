@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/config/strings.dart';
-import 'package:iapp/screens/footer/contact.dart';
-import 'package:iapp/screens/footer/suscriptions.dart';
-import 'package:iapp/screens/footer/terms.dart';
-import 'package:iapp/widgets/normal_login/social_button.dart';
+import 'package:aesthetica/config/strings.dart';
+import 'package:aesthetica/screens/footer/contact.dart';
+import 'package:aesthetica/screens/footer/suscriptions.dart';
+import 'package:aesthetica/screens/footer/terms.dart';
+import 'package:aesthetica/widgets/normal_login/social_button.dart';
 import 'package:camera/camera.dart';
 
 class FooterWithDivider extends StatelessWidget {

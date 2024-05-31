@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:iapp/db/database_helper.dart';
+import 'package:aesthetica/db/database_helper.dart';
 
 class UserLogin {
   Future<bool> validateUser(String email, String password) async {
