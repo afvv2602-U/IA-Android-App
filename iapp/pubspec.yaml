@@ -36,7 +36,45 @@ flutter:
     - assets/icons/
     - assets/images/background/
     - assets/images/profile/
-    - assets/images/bd/
+    - assets/images/bd/barroco/Artemisia Gentileschi/
+    - assets/images/bd/barroco/Caravaggio/
+    - assets/images/bd/barroco/Diego Velazquez/
+    - assets/images/bd/barroco/Georges de La Tour/
+    - assets/images/bd/barroco/Rembrandt van Rijn/
+    - assets/images/bd/cubismo/Fernand Léger/
+    - assets/images/bd/cubismo/Georges Braque/
+    - assets/images/bd/cubismo/Juan Gris/
+    - assets/images/bd/cubismo/Pablo Picasso/
+    - assets/images/bd/expresionismo/Alexej von Jawlensky/
+    - assets/images/bd/expresionismo/Edvard Munch/
+    - assets/images/bd/expresionismo/Emil Nolde/
+    - assets/images/bd/expresionismo/Ernst Ludwig Kirchner/
+    - assets/images/bd/expresionismo/Lyonel Feininger/
+    - assets/images/bd/expresionismo/Vincent van Gogh/
+    - assets/images/bd/expresionismo/Wassily Kandinsky/
+    - assets/images/bd/impresionismo/Claude Monet/
+    - assets/images/bd/impresionismo/Edgar Degas/
+    - assets/images/bd/impresionismo/Pierre-Auguste Renoir/
+    - assets/images/bd/impresionismo/Vincent van Gogh/
+    - assets/images/bd/realismo/Gustave Courbet/
+    - assets/images/bd/realismo/Jean-François Millet/
+    - assets/images/bd/realismo/Jean-Honore Fragonard/
+    - assets/images/bd/realismo/Johannes Vermeer/
+    - assets/images/bd/renacimiento/El bosco/
+    - assets/images/bd/renacimiento/Leonardo da Vinci/
+    - assets/images/bd/renacimiento/Miguel Angel/
+    - assets/images/bd/renacimiento/Rafael Sanzio/
+    - assets/images/bd/renacimiento/Sandro Botticelli/
+    - assets/images/bd/rococo/Francisco de Goya/
+    - assets/images/bd/rococo/François Boucher/
+    - assets/images/bd/rococo/Jean-Antoine Watteau/
+    - assets/images/bd/rococo/Jean-Honoré Fragonard/
+    - assets/images/bd/romanticismo/Caspar David Friedrich/
+    - assets/images/bd/romanticismo/Eugene Delacroix/
+    - assets/images/bd/romanticismo/Francisco de Goya/
+    - assets/images/bd/romanticismo/Jacques-Louis David/
+    - assets/images/bd/romanticismo/Theodore Gericault/
+    - assets/images/bd/romanticismo/William Turner/
   fonts:
     - family: EdensorTittle
       fonts:
