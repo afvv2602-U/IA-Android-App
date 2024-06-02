@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:iapp/db/queries/photo_queries.dart';
 import 'package:iapp/db/queries/profile_queries.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:iapp/config/colors.dart';
+import 'package:iapp/screens/home/edit_profile_page.dart';
 import 'dart:io';
 
 class ProfilePageTest extends StatefulWidget {
   final int userId;
   final VoidCallback onLogout;
+  final ValueNotifier<String?> profileImageNotifier;
 
-  ProfilePageTest({required this.userId, required this.onLogout});
+  ProfilePageTest({
+    required this.userId,
+    required this.onLogout,
+    required this.profileImageNotifier,
+  });
 
   @override
   _ProfilePageTestState createState() => _ProfilePageTestState();
@@ -35,87 +38,30 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
     var photos = await PhotoQueries().getUserPhotos(widget.userId);
     setState(() {
       _profileImagePath = profile['profileImagePath'];
+      widget.profileImageNotifier.value = _profileImagePath;
       _username = profile['username'] ?? 'Nombre de usuario';
       _description = profile['description'] ?? 'Descripción breve';
       _galleryPhotos =
           photos.map((photo) => photo['photoPath'] as String).toList();
-      _backgroundImagePath = _galleryPhotos.isNotEmpty
-          ? (_galleryPhotos..shuffle()).first
-          : 'assets/images/profile/default_background.png';
+      _backgroundImagePath = profile['backgroundImagePath'] ??
+          'assets/images/profile/default_background.png';
     });
-  }
-
-  Future<void> _updateProfileImage() async {
-    final picker = ImagePicker();
-    try {
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          _profileImagePath = pickedFile.path;
-        });
-
-        await _saveProfileData();
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-    }
   }
 
   Future<void> _saveProfileData() async {
     await _profileQueries.insertOrUpdateProfile({
-      'id': 1, // Make sure there is an id to identify the profile record
+      'id': 1,
       'username': _username,
       'description': _description,
       'profileImagePath': _profileImagePath,
+      'backgroundImagePath': _backgroundImagePath,
     });
     await _loadProfileData();
-  }
-
-  Future<void> _logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Borra todas las preferencias para cerrar sesión
-    widget.onLogout();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColors.acentoSutil, AppColors.acentoPrincipal],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-              child: Text(
-                'Opciones',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.edit),
-              title: Text('Editar perfil'),
-              onTap: () async {
-                Navigator.of(context).pop();
-                await _editProfileDialog(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Cerrar sesión'),
-              onTap: () {
-                Navigator.of(context).pop();
-                _logout();
-              },
-            ),
-          ],
-        ),
-      ),
       body: Stack(
         children: [
           CustomScrollView(
@@ -141,7 +87,7 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 200,
+          height: 180,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: _backgroundImagePath != null
@@ -156,7 +102,7 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
           bottom: -40,
           left: 16,
           child: GestureDetector(
-            onTap: _updateProfileImage,
+            onTap: () {},
             child: CircleAvatar(
               radius: 40,
               backgroundColor: Colors.white,
@@ -175,30 +121,62 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
           right: 16,
           child: Row(
             children: [
+              SizedBox(width: 10),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  bool isUpdated = await Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          EditProfilePage(
+                        username: _username,
+                        description: _description,
+                        profileImagePath: _profileImagePath,
+                        backgroundImagePath: _backgroundImagePath,
+                        onSave: (updatedUsername,
+                            updatedDescription,
+                            updatedProfileImagePath,
+                            updatedBackgroundImagePath) {
+                          setState(() {
+                            _username = updatedUsername;
+                            _description = updatedDescription;
+                            _profileImagePath = updatedProfileImagePath;
+                            _backgroundImagePath = updatedBackgroundImagePath;
+                            widget.profileImageNotifier.value =
+                                _profileImagePath;
+                          });
+                          _saveProfileData();
+                        },
+                      ),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        const begin = Offset(0.0, 1.0);
+                        const end = Offset.zero;
+                        const curve = Curves.ease;
+
+                        var tween = Tween(begin: begin, end: end)
+                            .chain(CurveTween(curve: curve));
+
+                        return SlideTransition(
+                          position: animation.drive(tween),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                  if (isUpdated) {
+                    _loadProfileData();
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
-                  'Follow',
-                  style: TextStyle(color: Colors.black, fontSize: 12),
-                ),
+                child: Icon(Icons.edit, color: Colors.black, size: 20),
               ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[200],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Icon(Icons.mail, color: Colors.black, size: 20),
-              ),
+              SizedBox(height: 80),
             ],
           ),
         ),
@@ -208,10 +186,10 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
 
   Widget _buildProfileInfo() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
       child: Column(
         children: [
-          SizedBox(height: 50),
+          SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -229,6 +207,11 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
                     '@${_username.toLowerCase().replaceAll(' ', '_')}',
                     style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
+                  SizedBox(height: 10),
+                  Text(
+                    _description,
+                    style: TextStyle(fontSize: 14, color: Colors.black),
+                  ),
                 ],
               ),
               Row(
@@ -238,12 +221,6 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
                 ],
               ),
             ],
-          ),
-          SizedBox(height: 10),
-          Text(
-            _description,
-            style: TextStyle(fontSize: 14, color: Colors.black),
-            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -291,65 +268,6 @@ class _ProfilePageTestState extends State<ProfilePageTest> {
           );
         },
       ),
-    );
-  }
-
-  Future<void> _editProfileDialog(BuildContext context) async {
-    final usernameController = TextEditingController();
-    final descriptionController = TextEditingController();
-    final tagsController = TextEditingController();
-
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Editar perfil'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextField(
-                  controller: usernameController,
-                  decoration: InputDecoration(
-                    labelText: 'Nombre de usuario',
-                    hintText: _username,
-                  ),
-                ),
-                TextField(
-                  controller: descriptionController,
-                  decoration: InputDecoration(
-                    labelText: 'Descripción breve',
-                    hintText: _description,
-                  ),
-                ),
-                TextField(
-                  controller: tagsController,
-                  decoration: InputDecoration(
-                    labelText: 'Estilos (separados por comas)',
-                    hintText: '', // No hay etiquetas, ya no es necesario
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Guardar'),
-              onPressed: () async {
-                setState(() {
-                  _username = usernameController.text.isNotEmpty
-                      ? usernameController.text
-                      : _username;
-                  _description = descriptionController.text.isNotEmpty
-                      ? descriptionController.text
-                      : _description;
-                });
-                await _saveProfileData();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

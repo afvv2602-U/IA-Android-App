@@ -4,12 +4,11 @@ import 'package:iapp/screens/login_register/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-
 import 'package:iapp/screens/home/camera_page.dart';
 import 'package:iapp/screens/home/gallery_page.dart';
-import 'package:iapp/screens/home/profile_page.dart';
 import 'package:iapp/screens/home/search_page.dart';
 import 'package:iapp/widgets/home/navigation_bar.dart';
+import 'package:iapp/db/queries/profile_queries.dart';
 
 class AppHomePage extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -23,11 +22,14 @@ class AppHomePage extends StatefulWidget {
 
 class _AppHomePageState extends State<AppHomePage> {
   int _selectedIndex = 0;
+  final ValueNotifier<String?> _profileImageNotifier =
+      ValueNotifier<String?>(null);
 
   @override
   void initState() {
     super.initState();
     BackButtonInterceptor.add(_myInterceptor);
+    _loadProfileImage();
   }
 
   @override
@@ -47,10 +49,16 @@ class _AppHomePageState extends State<AppHomePage> {
       ProfilePageTest(
         userId: widget.userId,
         onLogout: _handleLogout,
+        profileImageNotifier: _profileImageNotifier,
       ),
       GalleryPage(userId: widget.userId),
       CameraPage(cameras: widget.cameras, userId: widget.userId),
     ];
+  }
+
+  Future<void> _loadProfileImage() async {
+    String? profileImagePath = await ProfileQueries().getProfileImagePath();
+    _profileImageNotifier.value = profileImagePath;
   }
 
   void _onItemTapped(int index) {
@@ -78,6 +86,7 @@ class _AppHomePageState extends State<AppHomePage> {
       bottomNavigationBar: CustomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+        profileImageNotifier: _profileImageNotifier,
       ),
     );
   }

@@ -28,7 +28,8 @@ class DatabaseHelper {
   static final columnUsername = 'username';
   static final columnDescription = 'description';
   static final columnProfileImagePath = 'profileImagePath';
-  static final columnTags = 'tags'; // New column for tags
+  static final columnBackgroundImagePath = 'backgroundImagePath';
+  static final columnTags = 'tags';
 
   static final columnPaintingId = 'paintingId';
   static final columnPaintingTitle = 'title';
@@ -81,6 +82,7 @@ class DatabaseHelper {
             $columnUsername TEXT,
             $columnDescription TEXT,
             $columnProfileImagePath TEXT,
+            $columnBackgroundImagePath TEXT,
             $columnTags TEXT
           )
           ''');
@@ -94,8 +96,7 @@ class DatabaseHelper {
             $columnPaintingAuthor TEXT NOT NULL
           )
           ''');
-    await PaintingQueries().insertInitialPaintings(db,
-        tablePaintings); // Mueve la inserción inicial aquí para que se ejecute durante la creación
+    await PaintingQueries().insertInitialPaintings(db, tablePaintings);
   }
 
   Future<int> getUserId(String email, String password) async {
