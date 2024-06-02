@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iapp/screens/home/profile_test.dart';
 import 'package:iapp/screens/login_register/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
@@ -43,7 +44,7 @@ class _AppHomePageState extends State<AppHomePage> {
     return [
       HomeScreen(userId: widget.userId),
       SearchPage(),
-      ProfilePage(
+      ProfilePageTest(
         userId: widget.userId,
         onLogout: _handleLogout,
       ),

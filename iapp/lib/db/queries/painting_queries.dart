@@ -69,24 +69,51 @@ class PaintingQueries {
       result = await db.query(DatabaseHelper.tablePaintings);
     }
 
-    return result.map((c) => Painting.fromMap(c)).toList();
+    List<Painting> paintings = result.isNotEmpty
+        ? result.map((c) => Painting.fromMap(c)).toList()
+        : [];
+
+    return paintings;
   }
 
   Future<List<String>> getStyles() async {
     Database db = await DatabaseHelper.instance.database;
     List<Map<String, dynamic>> result = await db.rawQuery(
         'SELECT DISTINCT ${DatabaseHelper.columnPaintingStyle} FROM ${DatabaseHelper.tablePaintings}');
-    return result
-        .map((e) => e[DatabaseHelper.columnPaintingStyle] as String)
-        .toList();
+    List<String> styles = result.isNotEmpty
+        ? result
+            .map((c) => c[DatabaseHelper.columnPaintingStyle] as String)
+            .toList()
+        : [];
+    return styles;
   }
 
   Future<List<String>> getAuthors() async {
     Database db = await DatabaseHelper.instance.database;
     List<Map<String, dynamic>> result = await db.rawQuery(
         'SELECT DISTINCT ${DatabaseHelper.columnPaintingAuthor} FROM ${DatabaseHelper.tablePaintings}');
-    return result
-        .map((e) => e[DatabaseHelper.columnPaintingAuthor] as String)
-        .toList();
+    List<String> authors = result.isNotEmpty
+        ? result
+            .map((c) => c[DatabaseHelper.columnPaintingAuthor] as String)
+            .toList()
+        : [];
+    return authors;
+  }
+
+  Future<List<String>> getAuthorsByStyle(String style) async {
+    Database db = await DatabaseHelper.instance.database;
+    List<Map<String, dynamic>> result = await db.query(
+      DatabaseHelper.tablePaintings,
+      columns: [DatabaseHelper.columnPaintingAuthor],
+      where: '${DatabaseHelper.columnPaintingStyle} = ?',
+      whereArgs: [style],
+      distinct: true,
+    );
+    List<String> authors = result.isNotEmpty
+        ? result
+            .map((c) => c[DatabaseHelper.columnPaintingAuthor] as String)
+            .toList()
+        : [];
+    return authors;
   }
 }
