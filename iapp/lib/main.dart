@@ -17,6 +17,8 @@ Future<void> main() async {
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
   String email = prefs.getString('email') ?? '';
   String password = prefs.getString('password') ?? '';
+  // Inicializa la base de datos
+  await DatabaseHelper.instance.database;
 
   runApp(MyApp(
     isLoggedIn: isLoggedIn,

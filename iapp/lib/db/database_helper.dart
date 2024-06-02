@@ -1,3 +1,4 @@
+import 'package:iapp/db/queries/painting_queries.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -9,7 +10,8 @@ class DatabaseHelper {
 
   static final tableUser = 'user';
   static final tablePhotos = 'photos';
-  static final tableProfile = 'profile'; // New table for profile
+  static final tableProfile = 'profile';
+  static final tablePaintings = 'paintings';
 
   static final columnId = '_id';
   static final columnName = 'nombre';
@@ -27,6 +29,12 @@ class DatabaseHelper {
   static final columnDescription = 'description';
   static final columnProfileImagePath = 'profileImagePath';
   static final columnTags = 'tags'; // New column for tags
+
+  static final columnPaintingId = 'paintingId';
+  static final columnPaintingTitle = 'title';
+  static final columnPaintingImagePath = 'imagePath';
+  static final columnPaintingStyle = 'style';
+  static final columnPaintingAuthor = 'author';
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -76,6 +84,18 @@ class DatabaseHelper {
             $columnTags TEXT
           )
           ''');
+
+    await db.execute('''
+          CREATE TABLE $tablePaintings (
+            $columnPaintingId INTEGER PRIMARY KEY,
+            $columnPaintingTitle TEXT NOT NULL,
+            $columnPaintingImagePath TEXT NOT NULL,
+            $columnPaintingStyle TEXT NOT NULL,
+            $columnPaintingAuthor TEXT NOT NULL
+          )
+          ''');
+    await PaintingQueries().insertInitialPaintings(db,
+        tablePaintings); // Mueve la inserción inicial aquí para que se ejecute durante la creación
   }
 
   Future<int> getUserId(String email, String password) async {

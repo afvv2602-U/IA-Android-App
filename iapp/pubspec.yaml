@@ -36,6 +36,7 @@ flutter:
     - assets/icons/
     - assets/images/background/
     - assets/images/profile/
+    - assets/images/bd/
   fonts:
     - family: EdensorTittle
       fonts:

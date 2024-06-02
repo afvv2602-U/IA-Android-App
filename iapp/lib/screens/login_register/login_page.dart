@@ -10,7 +10,7 @@ import 'package:iapp/widgets/normal_login/custom_divider.dart';
 import 'package:iapp/screens/login_register/register_page.dart';
 import 'package:iapp/screens/login_register/forgot_pass_page.dart';
 import 'package:iapp/screens/home/home_page.dart';
-import 'package:iapp/db/models/user_login.dart';
+import 'package:iapp/db/queries/user_queries.dart';
 import 'package:camera/camera.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       String email = _emailController.text;
       String password = _passwordController.text;
 
-      bool isValidUser = await UserLogin().validateUser(email, password);
+      bool isValidUser = await UserQueries().validateUser(email, password);
       if (isValidUser) {
         int userId = await DatabaseHelper.instance.getUserId(email, password);
         SharedPreferences prefs = await SharedPreferences.getInstance();

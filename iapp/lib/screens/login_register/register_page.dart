@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/models/user_registration.dart';
+import 'package:camera/camera.dart';
 
 // Config
 import 'package:iapp/config/colors.dart';
@@ -10,7 +10,8 @@ import 'package:iapp/widgets/normal_login/custom_login_button.dart';
 import 'package:iapp/widgets/normal_login/footer_login.dart';
 import 'package:iapp/widgets/normal_login/header_login.dart';
 import 'package:iapp/widgets/normal_login/custom_divider.dart';
-import 'package:camera/camera.dart';
+
+import 'package:iapp/db/queries/user_queries.dart';
 
 class RegisterPage extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -45,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'email': _emailController.text,
         'password': _passwordController.text,
       };
-      await UserRegistration().registerUser(user);
+      await UserQueries().registerUser(user);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Usuario registrado con éxito')),
       );

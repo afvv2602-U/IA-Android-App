@@ -5,7 +5,7 @@ import 'package:iapp/widgets/normal_login/custom_divider.dart';
 import 'package:iapp/widgets/normal_login/custom_login_button.dart';
 import 'package:iapp/widgets/normal_login/footer_login.dart';
 import 'package:iapp/widgets/normal_login/header_login.dart';
-import 'package:iapp/db/models/password_reset_helper.dart';
+import 'package:iapp/db/queries/user_queries.dart';
 import 'package:camera/camera.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -30,11 +30,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Future<void> _resetPassword() async {
     if (_formKey.currentState?.validate() == true) {
       String email = _emailController.text;
-      bool emailExists = await PasswordResetHelper().checkUserEmail(email);
+      bool emailExists = await UserQueries().checkUserEmail(email);
 
       if (emailExists) {
         try {
-          await PasswordResetHelper().sendResetEmail(email);
+          await UserQueries().sendResetEmail(email);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Correo de restablecimiento enviado')),
           );
