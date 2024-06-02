@@ -1,5 +1,4 @@
 // search_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:iapp/db/queries/painting_queries.dart';
 import 'package:iapp/db/models/painting.dart';
@@ -21,18 +20,8 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     _paintings = PaintingQueries().getPaintings();
-    _styles = _getStyles();
-    _authors = _getAuthors();
-  }
-
-  Future<List<String>> _getStyles() async {
-    List<Painting> paintings = await PaintingQueries().getPaintings();
-    return paintings.map((p) => p.style).toSet().toList();
-  }
-
-  Future<List<String>> _getAuthors() async {
-    List<Painting> paintings = await PaintingQueries().getPaintings();
-    return paintings.map((p) => p.author).toSet().toList();
+    _styles = PaintingQueries().getStyles();
+    _authors = PaintingQueries().getAuthors();
   }
 
   void _filterPaintings() {
@@ -49,14 +38,6 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Buscar Obras de Arte'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              _filterPaintings();
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -82,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
                   items: snapshot.data!
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
-                      value: value == 'Todos' ? null : value,
+                      value: value,
                       child: Text(value),
                     );
                   }).toList(),
@@ -112,7 +93,7 @@ class _SearchPageState extends State<SearchPage> {
                   items: snapshot.data!
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
-                      value: value == 'Todos' ? null : value,
+                      value: value,
                       child: Text(value),
                     );
                   }).toList(),

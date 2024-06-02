@@ -11,7 +11,6 @@ class PaintingQueries {
     final String assetPath = 'assets/images/bd/';
 
     try {
-      // Cargar el contenido del manifiesto de los assets
       final manifestContent = await rootBundle.loadString('AssetManifest.json');
       final Map<String, dynamic> manifestMap = json.decode(manifestContent);
       final List<String> imagePaths = manifestMap.keys
@@ -22,10 +21,8 @@ class PaintingQueries {
       for (String path in imagePaths) {
         // Normalizar los separadores de ruta para asegurarnos de que funcionan en todos los sistemas operativos
         List<String> parts = path.replaceAll('\\', '/').split('/');
-        print('Parts: $parts');
         if (parts.length >= 6) {
-          // Ajusta el índice según tu estructura de carpetas
-          String style = parts[3]; // Cambiado a índice correcto
+          String style = parts[3];
           String author = parts[4].replaceAll('_', ' ');
           String title = parts[5].replaceAll('_', ' ').replaceAll('.png', '');
 
@@ -72,13 +69,24 @@ class PaintingQueries {
       result = await db.query(DatabaseHelper.tablePaintings);
     }
 
-    List<Painting> paintings = result.isNotEmpty
-        ? result.map((c) => Painting.fromMap(c)).toList()
-        : [];
+    return result.map((c) => Painting.fromMap(c)).toList();
+  }
 
-    print(
-        'Retrieved paintings: $paintings'); // Agrega esto para verificar la recuperación de datos
+  Future<List<String>> getStyles() async {
+    Database db = await DatabaseHelper.instance.database;
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        'SELECT DISTINCT ${DatabaseHelper.columnPaintingStyle} FROM ${DatabaseHelper.tablePaintings}');
+    return result
+        .map((e) => e[DatabaseHelper.columnPaintingStyle] as String)
+        .toList();
+  }
 
-    return paintings;
+  Future<List<String>> getAuthors() async {
+    Database db = await DatabaseHelper.instance.database;
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        'SELECT DISTINCT ${DatabaseHelper.columnPaintingAuthor} FROM ${DatabaseHelper.tablePaintings}');
+    return result
+        .map((e) => e[DatabaseHelper.columnPaintingAuthor] as String)
+        .toList();
   }
 }

@@ -1,5 +1,4 @@
 // painting.dart
-
 class Painting {
   final int id;
   final String title;
@@ -15,13 +14,15 @@ class Painting {
     required this.author,
   });
 
-  factory Painting.fromMap(Map<String, dynamic> json) => new Painting(
-        id: json['paintingId'],
-        title: json['title'],
-        imagePath: json['imagePath'],
-        style: json['style'],
-        author: json['author'],
-      );
+  factory Painting.fromMap(Map<String, dynamic> map) {
+    return Painting(
+      id: map['paintingId'],
+      title: map['title'],
+      imagePath: map['imagePath'],
+      style: map['style'],
+      author: map['author'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
