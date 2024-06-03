@@ -23,7 +23,7 @@ dependencies:
   back_button_interceptor: ^7.0.3
   image_picker: ^1.1.1
   animations: ^2.0.0
-  animated_list: ^0.1.4
+  animated_list: ^0.0.4
 
 
 

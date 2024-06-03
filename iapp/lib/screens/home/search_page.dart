@@ -17,11 +17,24 @@ class _SearchPageState extends State<SearchPage> {
   String? _filterAuthor;
   String sectionTitle = 'Estilos';
 
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  List<Painting> _currentPaintings = [];
+
   @override
   void initState() {
     super.initState();
     _paintings = PaintingQueries().getPaintings();
     _styles = _getStyles();
+    _populateList();
+  }
+
+  Future<void> _populateList() async {
+    List<Painting> paintings = await _paintings;
+    for (var i = 0; i < paintings.length; i++) {
+      _listKey.currentState?.insertItem(i);
+      _currentPaintings.add(paintings[i]);
+      await Future.delayed(Duration(milliseconds: 100)); // delay for animation
+    }
   }
 
   Future<List<String>> _getStyles() async {
@@ -35,13 +48,29 @@ class _SearchPageState extends State<SearchPage> {
     return paintings.map((p) => p.author).toSet().toList();
   }
 
-  void _filterPaintings() {
-    setState(() {
-      _paintings = PaintingQueries().getPaintings(
-        style: _filterStyle,
-        author: _filterAuthor,
+  void _filterPaintings() async {
+    List<Painting> paintings = await PaintingQueries().getPaintings(
+      style: _filterStyle,
+      author: _filterAuthor,
+    );
+
+    for (var i = 0; i < _currentPaintings.length; i++) {
+      _listKey.currentState?.removeItem(
+        0,
+        (context, animation) => Container(),
+        duration: Duration(milliseconds: 500),
       );
+    }
+
+    setState(() {
+      _currentPaintings = [];
     });
+
+    for (var i = 0; i < paintings.length; i++) {
+      _listKey.currentState?.insertItem(i);
+      _currentPaintings.add(paintings[i]);
+      await Future.delayed(Duration(milliseconds: 100));
+    }
   }
 
   void _resetFilters() {
@@ -52,6 +81,7 @@ class _SearchPageState extends State<SearchPage> {
       _paintings = PaintingQueries().getPaintings();
       _authors = null; // Reseteo a null
     });
+    _filterPaintings();
   }
 
   @override
@@ -113,23 +143,11 @@ class _SearchPageState extends State<SearchPage> {
             },
           ),
           Expanded(
-            child: FutureBuilder<List<Painting>>(
-              future: _paintings,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error al cargar las obras'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No hay obras disponibles'));
-                } else {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return PaintingCard(painting: snapshot.data![index]);
-                    },
-                  );
-                }
+            child: AnimatedList(
+              key: _listKey,
+              initialItemCount: _currentPaintings.length,
+              itemBuilder: (context, index, animation) {
+                return _buildItem(_currentPaintings[index], animation);
               },
             ),
           ),
@@ -197,6 +215,14 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildItem(Painting painting, Animation<double> animation) {
+    return SizeTransition(
+      sizeFactor: animation,
+      axis: Axis.vertical,
+      child: PaintingCard(painting: painting),
     );
   }
 }

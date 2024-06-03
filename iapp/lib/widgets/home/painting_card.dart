@@ -16,7 +16,7 @@ class PaintingCard extends StatelessWidget {
       openBuilder: (context, _) => PaintingDetailPage(painting: painting),
       closedElevation: 5,
       closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(0),
       ),
       closedColor: Colors.white,
       closedBuilder: (context, openContainer) {
