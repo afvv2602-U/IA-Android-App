@@ -24,7 +24,7 @@ dependencies:
   image_picker: ^1.1.1
   animations: ^2.0.0
   animated_list: ^0.0.4
-
+  carousel_slider: ^4.0.0
 
 
 
@@ -79,6 +79,14 @@ flutter:
     - assets/images/bd/romanticismo/Jacques-Louis David/
     - assets/images/bd/romanticismo/Theodore Gericault/
     - assets/images/bd/romanticismo/William Turner/
+    - assets/images/museos/
+    - assets/images/museos/descripciones.json
+    - assets/images/museos/Acrópolis-Atenas-Grecia/
+    - assets/images/museos/Louvre-Paris-Francia/
+    - assets/images/museos/Museo Británico-Londres-Inglaterra/
+    - assets/images/museos/Museo del Prado-Madrid-España/
+    - assets/images/museos/Museo Metropolitano de Arte-Nueva York-Estados Unidos/
+    - assets/images/museos/State Hermitage-San Petersburgo-Rusia/
   fonts:
     - family: EdensorTittle
       fonts:

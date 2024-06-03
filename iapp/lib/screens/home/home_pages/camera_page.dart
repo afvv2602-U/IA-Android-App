@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:iapp/db/queries/photo_queries.dart';
-import 'package:iapp/screens/home/photos/image_preview_page.dart';
+import 'package:iapp/screens/home/gallery/image_preview_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:iapp/api/api_service.dart';
 import 'dart:io';

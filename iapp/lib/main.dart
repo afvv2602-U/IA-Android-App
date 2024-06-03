@@ -6,7 +6,7 @@ import 'package:iapp/config/strings.dart';
 import 'package:iapp/widgets/normal_login/social_button_white.dart';
 import 'package:iapp/widgets/normal_login/custom_main_button.dart';
 import 'package:iapp/screens/login_register/login_page.dart';
-import 'package:iapp/screens/home/home_page.dart';
+import 'package:iapp/screens/home/home_main.dart';
 
 List<CameraDescription> cameras = [];
 

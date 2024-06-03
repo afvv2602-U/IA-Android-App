@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iapp/db/queries/photo_queries.dart';
 import 'package:iapp/db/queries/profile_queries.dart';
-import 'package:iapp/screens/home/photos/edit_profile_page.dart';
+import 'package:iapp/screens/home/profile/edit_profile_page.dart';
 import 'dart:io';
 
 class ProfilePage extends StatefulWidget {

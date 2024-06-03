@@ -1,8 +1,9 @@
-import 'package:iapp/db/queries/painting_queries.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:iapp/db/queries/painting_queries.dart';
+import 'package:iapp/db/queries/museum_queries.dart';
 
 class DatabaseHelper {
   static final _databaseName = "MyDatabase.db";
@@ -12,6 +13,7 @@ class DatabaseHelper {
   static final tablePhotos = 'photos';
   static final tableProfile = 'profile';
   static final tablePaintings = 'paintings';
+  static final tableMuseums = 'museums';
 
   static final columnId = '_id';
   static final columnName = 'nombre';
@@ -36,6 +38,13 @@ class DatabaseHelper {
   static final columnPaintingImagePath = 'imagePath';
   static final columnPaintingStyle = 'style';
   static final columnPaintingAuthor = 'author';
+
+  static final columnMuseumId = 'museumId';
+  static final columnMuseumName = 'name';
+  static final columnMuseumLocation = 'location';
+  static final columnMuseumImagePaths = 'imagePaths';
+  static final columnMuseumDescription = 'description';
+  static final columnMuseumMainAttractions = 'mainAttractions';
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -96,7 +105,20 @@ class DatabaseHelper {
             $columnPaintingAuthor TEXT NOT NULL
           )
           ''');
+
+    await db.execute('''
+          CREATE TABLE $tableMuseums (
+            $columnMuseumId INTEGER PRIMARY KEY,
+            $columnMuseumName TEXT NOT NULL,
+            $columnMuseumLocation TEXT NOT NULL,
+            $columnMuseumImagePaths TEXT NOT NULL,
+            $columnMuseumDescription TEXT NOT NULL,
+            $columnMuseumMainAttractions TEXT NOT NULL
+          )
+          ''');
+
     await PaintingQueries().insertInitialPaintings(db, tablePaintings);
+    await MuseumQueries().insertInitialMuseums(db, tableMuseums);
   }
 
   Future<int> getUserId(String email, String password) async {

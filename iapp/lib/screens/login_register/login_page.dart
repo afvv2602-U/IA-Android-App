@@ -9,7 +9,7 @@ import 'package:iapp/widgets/normal_login/header_login.dart';
 import 'package:iapp/widgets/normal_login/custom_divider.dart';
 import 'package:iapp/screens/login_register/register_page.dart';
 import 'package:iapp/screens/login_register/forgot_pass_page.dart';
-import 'package:iapp/screens/home/home_page.dart';
+import 'package:iapp/screens/home/home_main.dart';
 import 'package:iapp/db/queries/user_queries.dart';
 import 'package:camera/camera.dart';
 

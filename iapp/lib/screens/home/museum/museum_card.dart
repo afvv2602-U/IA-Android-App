@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:iapp/db/models/museum.dart';
 import 'package:animations/animations.dart';
-import 'package:iapp/db/models/painting.dart';
-import 'package:iapp/screens/home/painting/painting_detail_page.dart';
+import 'dart:io';
 
-class PaintingCard extends StatelessWidget {
-  final Painting painting;
+import 'package:iapp/screens/home/museum/museum_detail_page.dart';
 
-  const PaintingCard({required this.painting});
+class MuseumCard extends StatelessWidget {
+  final Museum museum;
+
+  const MuseumCard({required this.museum});
 
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
       transitionType: ContainerTransitionType.fadeThrough,
       transitionDuration: Duration(milliseconds: 500),
-      openBuilder: (context, _) => PaintingDetailPage(painting: painting),
+      openBuilder: (context, _) => MuseumDetailPage(museum: museum),
       closedElevation: 5,
       closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0),
+        borderRadius: BorderRadius.circular(15),
       ),
       closedColor: Colors.white,
       closedBuilder: (context, openContainer) {
@@ -36,7 +38,7 @@ class PaintingCard extends StatelessWidget {
                     width: double.infinity,
                     height: 300,
                     child: Image.asset(
-                      painting.imagePath,
+                      museum.imagePaths[0],
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -65,7 +67,7 @@ class PaintingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          painting.title,
+                          museum.name,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -75,7 +77,7 @@ class PaintingCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          painting.author,
+                          museum.location,
                           style: TextStyle(
                             color: Colors.white70,
                             fontSize: 18,

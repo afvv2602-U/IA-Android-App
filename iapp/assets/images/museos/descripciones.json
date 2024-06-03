@@ -1,0 +1,41 @@
+{
+  "Louvre": {
+    "descripcion": "El Louvre fue una fortaleza medieval y el palacio de los reyes de Francia antes de convertirse en un museo hace dos siglos. La adición de la pirámide de Leoh Ming Pei sorprendió a muchos cuando se dio a conocer en 1989 como la nueva entrada principal, sin embargo, de alguna manera funciona, pues logra integrar elementos dispares del palacio. Las colecciones del museo, van desde la antigüedad hasta la primera mitad del siglo XIX, y se encuentran entre las más importantes en el mundo. Un buen lugar para comenzar es el ala Sully.",
+    "principales_atracciones": [
+      "Venus de Milo",
+      "Victoria de Samotracia",
+      "Mona Lisa de Leonardo da Vinci"
+    ]
+  },
+    "Acrópolis": {
+    "descripcion": "Las impresionantes galerías de la planta baja se pueden ver desde las laderas de la Acrópolis. Su increíble suelo de cristal transparente ofrece un paseo por la historia, con una visión de la excavación arqueológica, mientras que la pendiente ascendente de la Acrópolis mantiene los santuarios de los atenienses de cada período histórico cercano. Los asentamientos más pequeños se han excavado, dándonos una idea de la vida ateniense.",
+    "principales_atracciones": [
+      "El friso del Partenón está montado sobre una estructura con exactamente las mismas dimensiones que la cella del Partenón, dando la visión completa de todos los detalles."
+    ]
+  },
+  "State Hermitage":{
+    "descripcion": "Rusia puede estar aislada de los centros artísticos de París, Roma y Londres, pero el Hermitage ha logrado adquirir una espectacular colección de arte del mundo con más de tres millones de artículos que atraviesan la historia, desde la Edad de Piedra hasta principios del siglo XX. El museo ocupa seis edificios a lo largo del río Neva, y su estructura barroca, azul y blanca, se terminó en 1764 y durante los siguientes siglos fue la principal residencia de los zares. Catalina la Grande fundó el museo ese mismo año cuando compró 255 pinturas de Berlín. El museo Focal Point tiene 120 habitaciones en cuatro edificios con colecciones de Europa occidental, con un recorrido que va desde la Edad Media hasta nuestros días. Rembrandt, Rubens, Tiepolo, Tiziano, Leonardo da Vinci, Picasso, Gauguin, Cézanne, Van Gogh, Goya... todos están representados aquí.",
+    "principales_atracciones": [
+      "La galería del tesoro de oro y las piezas de la colección privada de Nicolás II, que incluye pinturas, dibujos y medallas creadas para conmemorar su coronación."
+    ]
+  },
+    "Museo Británico":{
+    "descripcion": "El museo más grande de Gran Bretaña, donde podemos encontrar la colección nacional de arqueología y etnografía, que cuenta con más de ocho millones de objetos que van desde huesos prehistóricos a trozos del Partenón, desde habitaciones de palacios asirios enteras hasta exquisitas joyas de oro.",
+    "principales_atracciones": [
+      "La galería egipcia cuenta con la segunda mejor colección del mundo de antigüedades egipcias fuera del país de los faraones, incluyendo la Piedra de Rosetta, tallada en el año 196 a.C."
+    ]
+  },
+    "Museo del Prado":{
+    "descripcion": "La familia real española es responsable de la abundancia de obras maestras clásicas en el Prado. Durante siglos, los reyes y reinas se encargaron del arte con pasión y buen gusto. Además de estrellas de la pintura española, como Velázquez, Goya, Ribera y Zurbarán, el Prado tiene grandes colecciones de italianos (incluyendo Tiziano y Rafael) y artistas flamencos. Fernando VII abrió la colección al público en 1819, en el mismo edificio neoclásico que se encuentra en la actualidad, diseñado por Juan de Villanueva.",
+    "principales_atracciones": [
+      "Las Tres Gracias de Rubens",
+      "Las Meninas de Velázquez"
+    ]
+  },
+    "Museo Metropolitano de Arte":{
+    "descripcion": "El Museo Metropolitano de Arte es el museo más grande del hemisferio occidental. Su colección de más de dos millones de artículos no sólo es amplia, cubriendo todo el mundo y la historia, desde la antigüedad hasta el presente, también tiene una altísima calidad, con lo que algunas de sus áreas podrían ser consideradas museos en sí mismos. Sus pinturas europeas son impresionantes: obras de Botticelli, Rembrandt, Vermeer, Degas, Rodin... La colección egipcia muestra la tumba de Perneb (alrededor del año 2440 a.C.) y el exquisito templo de Dendur (alrededor de 23-10 a.C.). El ala americana contiene arte y artesanía americana, incluyendo una de Frank Lloyd Wright. Y la lista sigue y sigue...",
+    "principales_atracciones": [
+      "Adán y Eva, el conocido grabado de Alberto Durero, es sólo una de las muchas piezas impresionantes que descubrirás en el MET."
+    ]
+  }
+}

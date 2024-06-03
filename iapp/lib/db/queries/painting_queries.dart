@@ -34,7 +34,7 @@ class PaintingQueries {
           };
 
           await db.insert(tablePaintings, painting);
-          print('Inserted painting: $painting'); // Verificación de la inserción
+          // print('Inserted painting: $painting'); // Verificación de la inserción
         }
       }
     } catch (e) {

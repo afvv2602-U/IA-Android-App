@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/screens/home/profile_page.dart';
+import 'package:iapp/screens/home/home_pages/home_page.dart';
+import 'package:iapp/screens/home/home_pages/profile_page.dart';
 import 'package:iapp/screens/login_register/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:iapp/screens/home/camera_page.dart';
-import 'package:iapp/screens/home/gallery_page.dart';
-import 'package:iapp/screens/home/search_page.dart';
+import 'package:iapp/screens/home/home_pages/camera_page.dart';
+import 'package:iapp/screens/home/home_pages/gallery_page.dart';
+import 'package:iapp/screens/home/home_pages/search_page.dart';
 import 'package:iapp/widgets/home/navigation_bar.dart';
 import 'package:iapp/db/queries/profile_queries.dart';
 
@@ -44,7 +45,7 @@ class _AppHomePageState extends State<AppHomePage> {
 
   List<Widget> get _pages {
     return [
-      HomeScreen(userId: widget.userId),
+      HomePage(userId: widget.userId),
       SearchPage(),
       ProfilePage(
         userId: widget.userId,
@@ -87,22 +88,6 @@ class _AppHomePageState extends State<AppHomePage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         profileImageNotifier: _profileImageNotifier,
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  final int userId;
-
-  HomeScreen({required this.userId});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Home Screen for User $userId',
-        style: TextStyle(fontSize: 24),
       ),
     );
   }
