@@ -1,8 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:iapp/config/colors.dart';
 import 'package:iapp/db/queries/photo_queries.dart';
-import 'package:iapp/screens/home/photos/photo_detail_page.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:iapp/screens/home/photos/photo_detail_page.dart';
 
 class GalleryPage extends StatefulWidget {
   final int userId;
@@ -16,7 +18,7 @@ class GalleryPage extends StatefulWidget {
 class _GalleryPageState extends State<GalleryPage> {
   late Future<List<Map<String, dynamic>>> _photos;
   String? _filterStyle;
-  int _crossAxisCount = 4;
+  int _crossAxisCount = 3;
   double _currentScale = 1.0;
   double _baseScale = 1.0;
 
@@ -39,7 +41,14 @@ class _GalleryPageState extends State<GalleryPage> {
 
   void _loadUserPhotos() {
     setState(() {
-      _photos = PhotoQueries().getUserPhotos(widget.userId);
+      _photos = PhotoQueries().getUserPhotos(widget.userId).then((photos) {
+        if (_filterStyle != null && _filterStyle!.isNotEmpty) {
+          return photos
+              .where((photo) => photo['style'] == _filterStyle)
+              .toList();
+        }
+        return photos;
+      });
     });
   }
 
@@ -54,6 +63,8 @@ class _GalleryPageState extends State<GalleryPage> {
       if (_currentScale <= 0.75) {
         _crossAxisCount = 4;
       } else if (_currentScale <= 1.5) {
+        _crossAxisCount = 3;
+      } else if (_currentScale <= 2.5) {
         _crossAxisCount = 2;
       } else {
         _crossAxisCount = 1;
@@ -65,99 +76,183 @@ class _GalleryPageState extends State<GalleryPage> {
     _baseScale = _currentScale;
   }
 
+  void _resetFilters() {
+    setState(() {
+      _filterStyle = null;
+      _loadUserPhotos();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Galería'),
-        automaticallyImplyLeading: false,
-        actions: [
-          DropdownButton<String>(
-            hint: Text("Filtrar por estilo"),
-            value: _filterStyle,
-            onChanged: (String? newValue) {
-              setState(() {
-                _filterStyle = newValue;
-              });
-              _loadUserPhotos();
-            },
-            items: <String>[
-              'Todos', // Default filter option
-              'Barroco',
-              'Cubismo',
-              'Expresionismo',
-              'Impresionismo',
-              'Realismo',
-              'Renacimiento',
-              'Rococo',
-              'Romanticismo'
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value == 'Todos' ? null : value, // Set null for "Todos"
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-      body: GestureDetector(
-        onScaleStart: _handleScaleStart,
-        onScaleUpdate: _handleScaleUpdate,
-        child: FutureBuilder<List<Map<String, dynamic>>>(
-          future: _photos,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error al cargar las fotos'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No hay fotos disponibles'));
-            } else {
-              List<Map<String, dynamic>> photos = snapshot.data!;
-              if (_filterStyle != null) {
-                photos = photos
-                    .where((photo) => photo['style'] == _filterStyle)
-                    .toList();
-              }
-              return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _crossAxisCount,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+                top: 40,
+                left: 16,
+                right: 16,
+                bottom: 10), // Ajusta el padding para bajar la sección
+            color: Colors.transparent, // Fondo transparente
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Estilos',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                itemCount: photos.length,
-                itemBuilder: (context, index) {
-                  String photoPath = photos[index]['photoPath'];
-                  int photoId = photos[index]['_photoId'];
-                  String style = photos[index]['style'];
+                IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: _resetFilters,
+                ),
+              ],
+            ),
+          ),
+          FutureBuilder<List<Map<String, dynamic>>>(
+            future: _photos,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                print("Error al cargar las fotos: ${snapshot.error}");
+                return Center(child: Text('Error al cargar las fotos'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                print("No hay fotos disponibles");
+                return Center(child: Text('No hay fotos disponibles'));
+              } else {
+                List<Map<String, dynamic>> photos = snapshot.data!;
+                List<String> styles =
+                    photos.map((p) => p['style'] as String).toSet().toList();
+                return Flexible(
+                  child: Column(
+                    children: [
+                      _buildTagsSection(styles, (String? newValue) {
+                        setState(() {
+                          _filterStyle = newValue;
+                          _loadUserPhotos();
+                        });
+                      }),
+                      Flexible(
+                        child: GestureDetector(
+                          onScaleStart: _handleScaleStart,
+                          onScaleUpdate: _handleScaleUpdate,
+                          child: GridView.builder(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10), // Añadir padding lateral
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: _crossAxisCount,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
+                            itemCount: photos.length,
+                            itemBuilder: (context, index) {
+                              String photoPath = photos[index]['photoPath'];
+                              int photoId = photos[index]['_photoId'];
+                              String style = photos[index]['style'];
 
-                  return GestureDetector(
-                    onTap: () async {
-                      bool? result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PhotoDetailPage(
-                            photoPath: photoPath,
-                            style: style,
-                            onDelete: () {
-                              _deletePhoto(photoId);
+                              return OpenContainer(
+                                transitionType:
+                                    ContainerTransitionType.fadeThrough,
+                                transitionDuration: Duration(milliseconds: 500),
+                                openBuilder: (context, _) => PhotoDetailPage(
+                                  photoPath: photoPath,
+                                  style: style,
+                                  onDelete: () {
+                                    _deletePhoto(photoId);
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                closedElevation: 5,
+                                closedShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                closedColor: Colors.white,
+                                closedBuilder: (context, openContainer) {
+                                  return GestureDetector(
+                                    onTap: openContainer,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // Hacer menos redondeados los bordes
+                                      child: Image.file(
+                                        File(photoPath),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
                             },
                           ),
                         ),
-                      );
-                      if (result == true) {
-                        _loadUserPhotos();
-                      }
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Image.file(File(photoPath), fit: BoxFit.cover),
-                    ),
-                  );
-                },
-              );
-            }
-          },
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTagsSection(List<String> tags, Function(String?) onSelected) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      color: Colors.transparent, // Fondo transparente
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 60,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: tags.length,
+              itemBuilder: (context, index) {
+                return _buildGradientChip(tags[index], onSelected);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGradientChip(String tag, Function(String?) onSelected) {
+    bool isSelected = (_filterStyle == tag);
+    return GestureDetector(
+      onTap: () {
+        onSelected(isSelected ? null : tag);
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.acentoSutil, AppColors.acentoPrincipal],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              tag,
+              style: TextStyle(color: Colors.white),
+            ),
+            if (isSelected) ...[
+              SizedBox(width: 8),
+              Icon(
+                Icons.close,
+                color: Colors.white,
+                size: 16,
+              ),
+            ],
+          ],
         ),
       ),
     );
