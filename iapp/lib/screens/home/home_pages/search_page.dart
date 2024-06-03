@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iapp/config/colors.dart';
 import 'package:iapp/db/queries/painting_queries.dart';
 import 'package:iapp/db/models/painting.dart';
-import 'package:iapp/widgets/home/painting_card.dart';
+import 'package:iapp/screens/home/painting/painting_card.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _SearchPageState extends State<SearchPage> {
     for (var i = 0; i < paintings.length; i++) {
       _listKey.currentState?.insertItem(i);
       _currentPaintings.add(paintings[i]);
-      await Future.delayed(Duration(milliseconds: 100)); // delay for animation
+      await Future.delayed(Duration(milliseconds: 300)); // delay for animation
     }
   }
 
@@ -69,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
     for (var i = 0; i < paintings.length; i++) {
       _listKey.currentState?.insertItem(i);
       _currentPaintings.add(paintings[i]);
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(Duration(milliseconds: 300));
     }
   }
 

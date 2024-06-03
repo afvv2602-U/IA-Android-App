@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iapp/db/models/museum.dart';
 import 'package:animations/animations.dart';
-import 'dart:io';
-
 import 'package:iapp/screens/home/museum/museum_detail_page.dart';
 
 class MuseumCard extends StatelessWidget {
@@ -18,7 +16,7 @@ class MuseumCard extends StatelessWidget {
       openBuilder: (context, _) => MuseumDetailPage(museum: museum),
       closedElevation: 5,
       closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(0),
       ),
       closedColor: Colors.white,
       closedBuilder: (context, openContainer) {
@@ -36,7 +34,7 @@ class MuseumCard extends StatelessWidget {
                   // Image part
                   Container(
                     width: double.infinity,
-                    height: 300,
+                    height: 350, // Ajustado para mayor altura
                     child: Image.asset(
                       museum.imagePaths[0],
                       fit: BoxFit.cover,
@@ -45,7 +43,7 @@ class MuseumCard extends StatelessWidget {
                   // Gradient overlay
                   Container(
                     width: double.infinity,
-                    height: 300,
+                    height: 350, // Ajustado para mayor altura
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
