@@ -9,17 +9,12 @@ class PaintingDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           Image.asset(
             painting.imagePath,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain, // Ajustar la imagen para que se vea completa
             height: double.infinity,
             width: double.infinity,
             alignment: Alignment.center,
@@ -35,6 +30,15 @@ class PaintingDetailPage extends StatelessWidget {
                   Colors.transparent,
                 ],
               ),
+            ),
+          ),
+          Positioned(
+            top:
+                40, // Ajustar la posición del botón de cerrar para que no se superponga con el contenido
+            left: 16,
+            child: IconButton(
+              icon: Icon(Icons.close, color: Colors.black),
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ),
           Positioned(

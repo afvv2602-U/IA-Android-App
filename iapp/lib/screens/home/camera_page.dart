@@ -105,26 +105,37 @@ class _CameraPageState extends State<CameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            child: FutureBuilder<void>(
-              future: _initializeControllerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return Container(
-                    width: double.infinity,
-                    child: CameraPreview(_controller),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
+          FutureBuilder<void>(
+            future: _initializeControllerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SizedBox(
+                      width: constraints.maxWidth,
+                      height: constraints.maxHeight,
+                      child: CameraPreview(_controller),
+                    );
+                  },
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
           ),
-          IconButton(
-            icon: Icon(Icons.camera),
-            onPressed: _takePicture,
+          Positioned(
+            bottom: 40,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: FloatingActionButton(
+                onPressed: _takePicture,
+                child: Icon(Icons.camera, color: Colors.black),
+                backgroundColor: Colors.white,
+              ),
+            ),
           ),
         ],
       ),

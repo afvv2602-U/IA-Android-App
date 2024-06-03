@@ -141,7 +141,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildTagsSection(
       List<String> tags, String sectionTitle, Function(String?) onSelected) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       color: Colors.transparent, // Fondo transparente
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

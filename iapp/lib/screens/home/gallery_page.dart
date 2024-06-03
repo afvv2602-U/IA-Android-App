@@ -206,7 +206,7 @@ class _GalleryPageState extends State<GalleryPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 60,
+            height: 40,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: tags.length,
