@@ -3,7 +3,6 @@ import 'package:iapp/db/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 import 'package:iapp/config/strings.dart';
-import 'package:iapp/widgets/normal_login/social_button_white.dart';
 import 'package:iapp/widgets/normal_login/custom_main_button.dart';
 import 'package:iapp/screens/login_register/login_page.dart';
 import 'package:iapp/screens/home/home_main.dart';
@@ -101,35 +100,23 @@ class StartPage extends StatelessWidget {
                   fontSize: 60,
                   color: Colors.black,
                 ),
+                textAlign: TextAlign.center, // Centrar el texto
               ),
               Spacer(flex: 24),
-              CustomButton(
-                text: AppStrings.signIn,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(cameras: cameras),
-                    ),
-                  );
-                },
+              Center( // Envolver el botón con Center para centrarlo
+                child: CustomButton(
+                  text: AppStrings.signIn,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(cameras: cameras),
+                      ),
+                    );
+                  },
+                ),
               ),
-              Spacer(flex: 1),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialWhiteMediaButton(
-                      iconPath: 'assets/icons/ic_google.png', onPressed: () {}),
-                  SizedBox(width: 50),
-                  SocialWhiteMediaButton(
-                      iconPath: 'assets/icons/ic_apple.png', onPressed: () {}),
-                  SizedBox(width: 50),
-                  SocialWhiteMediaButton(
-                      iconPath: 'assets/icons/ic_facebook.png',
-                      onPressed: () {}),
-                ],
-              ),
-              Spacer(flex: 3),
+              Spacer(flex: 4), // Ajustar el espaciado
             ],
           ),
         ],
