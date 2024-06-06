@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/config/colors.dart';
-import 'package:iapp/config/strings.dart';
-import 'package:iapp/widgets/normal_login/custom_divider.dart';
-import 'package:iapp/widgets/normal_login/custom_login_button.dart';
-import 'package:iapp/widgets/normal_login/footer_login.dart';
-import 'package:iapp/widgets/normal_login/header_login.dart';
-import 'package:iapp/db/queries/user_queries.dart';
+import 'package:Aesthetica/config/colors.dart';
+import 'package:Aesthetica/config/strings.dart';
+import 'package:Aesthetica/widgets/normal_login/custom_divider.dart';
+import 'package:Aesthetica/widgets/normal_login/custom_login_button.dart';
+import 'package:Aesthetica/widgets/normal_login/footer_login.dart';
+import 'package:Aesthetica/widgets/normal_login/header_login.dart';
+import 'package:Aesthetica/db/queries/user_queries.dart';
 import 'package:camera/camera.dart';
 
 class ForgotPasswordPage extends StatefulWidget {

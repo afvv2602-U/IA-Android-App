@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
-import 'package:iapp/db/models/painting.dart';
-import 'package:iapp/screens/home/painting/painting_detail_page.dart';
+import 'package:Aesthetica/db/models/painting.dart';
+import 'package:Aesthetica/screens/home/painting/painting_detail_page.dart';
 
 class PaintingCard extends StatelessWidget {
   final Painting painting;

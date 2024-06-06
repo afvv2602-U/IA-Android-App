@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:iapp/db/queries/photo_queries.dart';
-import 'package:iapp/screens/home/gallery/image_preview_page.dart';
+import 'package:Aesthetica/db/queries/photo_queries.dart';
+import 'package:Aesthetica/screens/home/gallery/image_preview_page.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:iapp/api/api_service.dart';
+import 'package:Aesthetica/api/api_service.dart';
 import 'dart:io';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 

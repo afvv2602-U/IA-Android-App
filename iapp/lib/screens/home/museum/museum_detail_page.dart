@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/models/museum.dart';
+import 'package:Aesthetica/db/models/museum.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:math'; // Importa dart:math para usar pi
 

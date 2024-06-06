@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/config/colors.dart';
-import 'package:iapp/db/queries/painting_queries.dart';
-import 'package:iapp/db/models/painting.dart';
-import 'package:iapp/screens/home/painting/painting_card.dart';
+import 'package:Aesthetica/config/colors.dart';
+import 'package:Aesthetica/db/queries/painting_queries.dart';
+import 'package:Aesthetica/db/models/painting.dart';
+import 'package:Aesthetica/screens/home/painting/painting_card.dart';
 
 class SearchPage extends StatefulWidget {
   @override

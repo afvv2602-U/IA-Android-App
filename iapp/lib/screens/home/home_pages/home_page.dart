@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/models/museum.dart';
-import 'package:iapp/db/queries/museum_queries.dart';
+import 'package:Aesthetica/db/models/museum.dart';
+import 'package:Aesthetica/db/queries/museum_queries.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:animations/animations.dart';
-import 'package:iapp/screens/home/museum/museum_detail_page.dart';
+import 'package:Aesthetica/screens/home/museum/museum_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   final int userId;

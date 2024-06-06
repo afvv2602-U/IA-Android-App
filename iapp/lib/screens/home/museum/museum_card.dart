@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/models/museum.dart';
+import 'package:Aesthetica/db/models/museum.dart';
 import 'package:animations/animations.dart';
-import 'package:iapp/screens/home/museum/museum_detail_page.dart';
+import 'package:Aesthetica/screens/home/museum/museum_detail_page.dart';
 
 class MuseumCard extends StatelessWidget {
   final Museum museum;

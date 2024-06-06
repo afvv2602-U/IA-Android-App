@@ -1,11 +1,11 @@
 import Flutter
 import UIKit
 
-@UIApplicationMain
+@UAestheticalicationMain
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    _ application: UAestheticalication,
+    didFinishLaunchingWithOptions launchOptions: [UAestheticalication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

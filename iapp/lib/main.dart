@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/database_helper.dart';
+import 'package:Aesthetica/db/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
-import 'package:iapp/config/strings.dart';
-import 'package:iapp/widgets/normal_login/custom_main_button.dart';
-import 'package:iapp/screens/login_register/login_page.dart';
-import 'package:iapp/screens/home/home_main.dart';
+import 'package:Aesthetica/config/strings.dart';
+import 'package:Aesthetica/widgets/normal_login/custom_main_button.dart';
+import 'package:Aesthetica/screens/login_register/login_page.dart';
+import 'package:Aesthetica/screens/home/home_main.dart';
 
 List<CameraDescription> cameras = [];
 

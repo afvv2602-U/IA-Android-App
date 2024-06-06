@@ -1,10 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:iapp/config/colors.dart';
-import 'package:iapp/db/queries/photo_queries.dart';
+import 'package:Aesthetica/config/colors.dart';
+import 'package:Aesthetica/db/queries/photo_queries.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:iapp/screens/home/gallery/photo_detail_page.dart';
+import 'package:Aesthetica/screens/home/gallery/photo_detail_page.dart';
 
 class GalleryPage extends StatefulWidget {
   final int userId;

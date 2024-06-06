@@ -2,8 +2,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:iapp/db/queries/painting_queries.dart';
-import 'package:iapp/db/queries/museum_queries.dart';
+import 'package:Aesthetica/db/queries/painting_queries.dart';
+import 'package:Aesthetica/db/queries/museum_queries.dart';
 
 class DatabaseHelper {
   static final _databaseName = "MyDatabase.db";

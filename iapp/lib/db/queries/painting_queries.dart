@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:iapp/db/models/painting.dart';
+import 'package:Aesthetica/db/models/painting.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:iapp/db/database_helper.dart';
+import 'package:Aesthetica/db/database_helper.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class PaintingQueries {

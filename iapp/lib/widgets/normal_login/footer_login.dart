@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/config/strings.dart';
-import 'package:iapp/widgets/normal_login/social_button.dart';
+import 'package:Aesthetica/config/strings.dart';
+import 'package:Aesthetica/widgets/normal_login/social_button.dart';
 import 'package:camera/camera.dart';
-import 'package:iapp/screens/footer/terms.dart';
-import 'package:iapp/screens/footer/contact.dart';
-import 'package:iapp/screens/footer/suscriptions.dart';
+import 'package:Aesthetica/screens/footer/terms.dart';
+import 'package:Aesthetica/screens/footer/contact.dart';
+import 'package:Aesthetica/screens/footer/suscriptions.dart';
 
 class Footer extends StatelessWidget {
   final List<CameraDescription> cameras;

@@ -1,4 +1,4 @@
-import 'package:iapp/db/database_helper.dart';
+import 'package:Aesthetica/db/database_helper.dart';
 
 class ProfileQueries {
   final dbHelper = DatabaseHelper.instance;

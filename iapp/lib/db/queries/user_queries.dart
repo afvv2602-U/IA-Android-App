@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:iapp/db/database_helper.dart';
+import 'package:Aesthetica/db/database_helper.dart';
 import 'package:http/http.dart' as http;
 
 class UserQueries {

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:iapp/db/models/museum.dart';
-import 'package:iapp/db/database_helper.dart';
+import 'package:Aesthetica/db/models/museum.dart';
+import 'package:Aesthetica/db/database_helper.dart';
 
 class MuseumQueries {
   Future<void> insertInitialMuseums(Database db, String tableMuseums) async {

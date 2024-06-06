@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:iapp/widgets/diver_login/header_with_divider.dart';
-import 'package:iapp/widgets/diver_login/footer_with_divider.dart';
+import 'package:Aesthetica/widgets/diver_login/header_with_divider.dart';
+import 'package:Aesthetica/widgets/diver_login/footer_with_divider.dart';
 
 class SubscriptionsPage extends StatelessWidget {
   final List<CameraDescription> cameras;

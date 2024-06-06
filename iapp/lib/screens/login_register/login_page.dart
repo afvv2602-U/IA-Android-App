@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/database_helper.dart';
+import 'package:Aesthetica/db/database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:iapp/config/colors.dart';
-import 'package:iapp/config/strings.dart';
-import 'package:iapp/widgets/normal_login/custom_login_button.dart';
-import 'package:iapp/widgets/normal_login/footer_login.dart';
-import 'package:iapp/widgets/normal_login/header_login.dart';
-import 'package:iapp/widgets/normal_login/custom_divider.dart';
-import 'package:iapp/screens/login_register/register_page.dart';
-import 'package:iapp/screens/login_register/forgot_pass_page.dart';
-import 'package:iapp/screens/home/home_main.dart';
-import 'package:iapp/db/queries/user_queries.dart';
+import 'package:Aesthetica/config/colors.dart';
+import 'package:Aesthetica/config/strings.dart';
+import 'package:Aesthetica/widgets/normal_login/custom_login_button.dart';
+import 'package:Aesthetica/widgets/normal_login/footer_login.dart';
+import 'package:Aesthetica/widgets/normal_login/header_login.dart';
+import 'package:Aesthetica/widgets/normal_login/custom_divider.dart';
+import 'package:Aesthetica/screens/login_register/register_page.dart';
+import 'package:Aesthetica/screens/login_register/forgot_pass_page.dart';
+import 'package:Aesthetica/screens/home/home_main.dart';
+import 'package:Aesthetica/db/queries/user_queries.dart';
 import 'package:camera/camera.dart';
 
 class LoginPage extends StatefulWidget {

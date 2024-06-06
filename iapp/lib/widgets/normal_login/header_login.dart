@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/config/strings.dart';
-import 'package:iapp/screens/login_register/login_page.dart';
+import 'package:Aesthetica/config/strings.dart';
+import 'package:Aesthetica/screens/login_register/login_page.dart';
 import 'package:camera/camera.dart';
 
 class Header extends StatelessWidget {

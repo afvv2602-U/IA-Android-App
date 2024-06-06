@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/db/models/painting.dart';
+import 'package:Aesthetica/db/models/painting.dart';
 
 class PaintingDetailPage extends StatelessWidget {
   final Painting painting;

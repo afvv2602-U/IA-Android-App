@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:iapp/screens/home/home_pages/home_page.dart';
-import 'package:iapp/screens/home/home_pages/profile_page.dart';
-import 'package:iapp/screens/login_register/login_page.dart';
+import 'package:Aesthetica/screens/home/home_pages/home_page.dart';
+import 'package:Aesthetica/screens/home/home_pages/profile_page.dart';
+import 'package:Aesthetica/screens/login_register/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:iapp/screens/home/home_pages/camera_page.dart';
-import 'package:iapp/screens/home/home_pages/gallery_page.dart';
-import 'package:iapp/screens/home/home_pages/search_page.dart';
-import 'package:iapp/widgets/home/navigation_bar.dart';
-import 'package:iapp/db/queries/profile_queries.dart';
+import 'package:Aesthetica/screens/home/home_pages/camera_page.dart';
+import 'package:Aesthetica/screens/home/home_pages/gallery_page.dart';
+import 'package:Aesthetica/screens/home/home_pages/search_page.dart';
+import 'package:Aesthetica/widgets/home/navigation_bar.dart';
+import 'package:Aesthetica/db/queries/profile_queries.dart';
 
 class AppHomePage extends StatefulWidget {
   final List<CameraDescription> cameras;
